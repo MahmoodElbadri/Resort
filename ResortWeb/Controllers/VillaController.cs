@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Resort.Domain.Entities;
 using Resort.Infrastructure.Data;
 
 namespace ResortWeb.Controllers
@@ -20,6 +21,14 @@ namespace ResortWeb.Controllers
         public IActionResult Create()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(Villa villa)
+        {
+            _db.Add(villa);
+            _db.SaveChanges();
+            return RedirectToAction("Index","Villa");
         }
     }
 }
