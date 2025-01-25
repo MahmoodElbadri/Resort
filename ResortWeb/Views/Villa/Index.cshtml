@@ -25,6 +25,7 @@
                         <th>Price</th>
                         <th>Square Feet</th>
                         <th>Occupancy</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -42,6 +43,21 @@
 
                             <!-- Occupancy -->
                             <td>@villa.Occupancy</td>
+                            <!--Edit Button-->
+                            <td> 
+                                <div class="btn-group w-75 role=group">
+                                    <a asp-controller="Villa" asp-action="Update" asp-route-id="@villa.Id" class="btn btn-success mx-2">
+                                     <bi class="bi bi-pencil-square"></bi>   Edit Villa
+                                        </a>
+@*                                 </div>
+                            </td>
+                            <td>
+                                <div class="btn-group w-75 role=group"> *@
+                                    <a asp-controller="Villa" asp-action="Delete" asp-route-id="@villa.Id" class="btn btn-danger btn btn-danger mx-2">
+                                        <bi class="bi bi-trash"></bi> Delete Villa
+                                        </a>
+                                </div>
+                            </td>
                         </tr>
                     }
                 </tbody>
