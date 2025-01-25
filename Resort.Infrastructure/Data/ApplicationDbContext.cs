@@ -8,12 +8,13 @@ using System.Threading.Tasks;
 
 namespace Resort.Infrastructure.Data
 {
-    public class ApplicationDbContext:DbContext
+    public class ApplicationDbContext : DbContext
     {
         public DbSet<Villa> Villas { get; set; }
+        public DbSet<VillaNumber> VillaNumbers { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-            
+
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,12 +36,12 @@ namespace Resort.Infrastructure.Data
                 {
                     Id = 2,
                     Name = "Palace Villa",
-                    Occupancy=4,
-                    Price=150,
+                    Occupancy = 4,
+                    Price = 150,
                     ImageUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.villaplus.com%2Fbest-villa-holidays&psig=AOvVaw25JOKvkOKym5g2kAZYqZ9O&ust=1737838204750000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCOCdp_mdj4sDFQAAAAAdAAAAABAJ",
-                    CreatedDate= DateTime.Now,
-                    UpdatedDate= DateTime.Now,
-                    SqrFeet=200,
+                    CreatedDate = DateTime.Now,
+                    UpdatedDate = DateTime.Now,
+                    SqrFeet = 200,
                     Description = "This is details of Villa 2"
                 },
                 new Villa()
@@ -66,6 +67,43 @@ namespace Resort.Infrastructure.Data
                     Occupancy = 4,
                     ImageUrl = "https://www.google.com/imgres?imgurl=https%3A%2F%2Fvillaimages.villaplus.com%2Fimages%2Fvillas%2Fphotos%2F8bb14538-2835-41ba-9c8c-e739fd8069a5_725.jpg&tbnid=H7579zpt_96g-M&vet=10CBYQxiAoCGoXChMI4J2n-Z2PiwMVAAAAAB0AAAAAEA8..i&imgrefurl=https%3A%2F%2Fwww.villaplus.com%2Fdestinations%2Fvillas-in-spain%2Fvillas-in-balearic-islands%2Fmenorca%2Fcalan-porter&docid=t6qGL44sGUmn4M&w=725&h=482&itg=1&q=villas&ved=0CBYQxiAoCGoXChMI4J2n-Z2PiwMVAAAAAB0AAAAAEA8",
                     Price = 700
+                }
+                );
+            modelBuilder.Entity<VillaNumber>().HasData(
+                new VillaNumber
+                {
+                    VillaNo = 1,
+                    VillaId = 1,
+                },
+                new VillaNumber
+                {
+                    VillaNo = 2,
+                    VillaId = 1
+                },
+                new VillaNumber
+                {
+                    VillaNo = 3,
+                    VillaId = 2
+                },
+                new VillaNumber
+                {
+                    VillaNo = 4,
+                    VillaId = 3
+                },
+                new VillaNumber
+                {
+                    VillaNo = 5,
+                    VillaId = 3
+                },
+                new VillaNumber
+                {
+                    VillaNo = 6,
+                    VillaId = 4
+                },
+                new VillaNumber
+                {
+                    VillaNo = 7,
+                    VillaId = 4
                 }
                 );
         }

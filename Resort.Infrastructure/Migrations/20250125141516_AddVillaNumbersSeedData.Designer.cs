@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Resort.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using Resort.Infrastructure.Data;
 namespace Resort.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250125141516_AddVillaNumbersSeedData")]
+    partial class AddVillaNumbersSeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,60 +66,57 @@ namespace Resort.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2025, 1, 25, 21, 2, 13, 620, DateTimeKind.Local).AddTicks(8113),
+                            CreatedDate = new DateTime(2025, 1, 25, 16, 15, 14, 871, DateTimeKind.Local).AddTicks(3770),
                             Description = "This is details of Villa 1",
                             ImageUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.independent.co.uk%2Ftravel%2Fvilla-holidays-europe-spain-greece-portugal-cyprus-b2472690.html&psig=AOvVaw25JOKvkOKym5g2kAZYqZ9O&ust=1737838204750000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCOCdp_mdj4sDFQAAAAAdAAAAABAE",
                             Name = "Royal Villa",
                             Occupancy = 4,
                             Price = 200.0,
                             SqrFeet = 300,
-                            UpdatedDate = new DateTime(2025, 1, 25, 21, 2, 13, 620, DateTimeKind.Local).AddTicks(8153)
+                            UpdatedDate = new DateTime(2025, 1, 25, 16, 15, 14, 871, DateTimeKind.Local).AddTicks(3816)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2025, 1, 25, 21, 2, 13, 620, DateTimeKind.Local).AddTicks(8161),
+                            CreatedDate = new DateTime(2025, 1, 25, 16, 15, 14, 871, DateTimeKind.Local).AddTicks(3820),
                             Description = "This is details of Villa 2",
                             ImageUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.villaplus.com%2Fbest-villa-holidays&psig=AOvVaw25JOKvkOKym5g2kAZYqZ9O&ust=1737838204750000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCOCdp_mdj4sDFQAAAAAdAAAAABAJ",
                             Name = "Palace Villa",
                             Occupancy = 4,
                             Price = 150.0,
                             SqrFeet = 200,
-                            UpdatedDate = new DateTime(2025, 1, 25, 21, 2, 13, 620, DateTimeKind.Local).AddTicks(8162)
+                            UpdatedDate = new DateTime(2025, 1, 25, 16, 15, 14, 871, DateTimeKind.Local).AddTicks(3822)
                         },
                         new
                         {
                             Id = 3,
-                            CreatedDate = new DateTime(2025, 1, 25, 21, 2, 13, 620, DateTimeKind.Local).AddTicks(8170),
+                            CreatedDate = new DateTime(2025, 1, 25, 16, 15, 14, 871, DateTimeKind.Local).AddTicks(3827),
                             Description = "This is details of Villa 3",
                             ImageUrl = "https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.rentvillasalgarve.co.uk%2Fmedia%2F2418546%2FLuxury-holiday-villa-rental-Quinta-do-Lago.jpg%3Fwidth%3D600%26height%3D420%26scale%3Dboth%26mode%3Dcrop%26quality%3D75&tbnid=2pgayn9pyvB0yM&vet=10CBIQxiAoAmoXChMI4J2n-Z2PiwMVAAAAAB0AAAAAEA8..i&imgrefurl=https%3A%2F%2Fwww.rentvillasalgarve.co.uk%2F&docid=TF4EoHH-oNiY2M&w=600&h=420&itg=1&q=villas&ved=0CBIQxiAoAmoXChMI4J2n-Z2PiwMVAAAAAB0AAAAAEA8",
                             Name = "Paradise Villa",
                             Occupancy = 4,
                             Price = 600.0,
                             SqrFeet = 100,
-                            UpdatedDate = new DateTime(2025, 1, 25, 21, 2, 13, 620, DateTimeKind.Local).AddTicks(8165)
+                            UpdatedDate = new DateTime(2025, 1, 25, 16, 15, 14, 871, DateTimeKind.Local).AddTicks(3825)
                         },
                         new
                         {
                             Id = 4,
-                            CreatedDate = new DateTime(2025, 1, 25, 21, 2, 13, 620, DateTimeKind.Local).AddTicks(8174),
+                            CreatedDate = new DateTime(2025, 1, 25, 16, 15, 14, 871, DateTimeKind.Local).AddTicks(3831),
                             Description = "This is details of Villa 4",
                             ImageUrl = "https://www.google.com/imgres?imgurl=https%3A%2F%2Fvillaimages.villaplus.com%2Fimages%2Fvillas%2Fphotos%2F8bb14538-2835-41ba-9c8c-e739fd8069a5_725.jpg&tbnid=H7579zpt_96g-M&vet=10CBYQxiAoCGoXChMI4J2n-Z2PiwMVAAAAAB0AAAAAEA8..i&imgrefurl=https%3A%2F%2Fwww.villaplus.com%2Fdestinations%2Fvillas-in-spain%2Fvillas-in-balearic-islands%2Fmenorca%2Fcalan-porter&docid=t6qGL44sGUmn4M&w=725&h=482&itg=1&q=villas&ved=0CBYQxiAoCGoXChMI4J2n-Z2PiwMVAAAAAB0AAAAAEA8",
                             Name = "Luxury Villa",
                             Occupancy = 4,
                             Price = 700.0,
                             SqrFeet = 120,
-                            UpdatedDate = new DateTime(2025, 1, 25, 21, 2, 13, 620, DateTimeKind.Local).AddTicks(8173)
+                            UpdatedDate = new DateTime(2025, 1, 25, 16, 15, 14, 871, DateTimeKind.Local).AddTicks(3830)
                         });
                 });
 
             modelBuilder.Entity("Resort.Domain.Entities.VillaNumber", b =>
                 {
                     b.Property<int>("VillaNo")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VillaNo"));
 
                     b.Property<string>("SpecialDetails")
                         .HasColumnType("nvarchar(max)");
