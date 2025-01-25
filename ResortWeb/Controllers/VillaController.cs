@@ -34,8 +34,10 @@ namespace ResortWeb.Controllers
             {
                 _db.Add(villa);
                 _db.SaveChanges();
+                TempData["Success"] = "Villa has been created successfully";
                 return RedirectToAction("Index", "Villa");
             }
+            TempData["error"] = "Villa couldn't be created";
             return View(villa);
         }
 
@@ -55,8 +57,10 @@ namespace ResortWeb.Controllers
             {
                 _db.Villas.Update(villa);
                 _db.SaveChanges();
+                TempData["Success"] = "Villa has been updated successfully";
                 return RedirectToAction("Index", "Villa");
             }
+            TempData["error"] = "Villa couldn't be updated";
             return View(villa);
         }
 
@@ -76,8 +80,10 @@ namespace ResortWeb.Controllers
             {
                 _db.Villas.Remove(existVilla);
                 _db.SaveChanges();
+                TempData["Success"] = "Villa has been deleted successfully";
                 return RedirectToAction("Index", "Villa");
             }
+            TempData["error"] = "Villa couldn't be Deleted";
             return View();
         }
     }
