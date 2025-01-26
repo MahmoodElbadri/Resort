@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Resort.Domain.Entities;
 using Resort.Infrastructure.Data;
+using ResortWeb.ViewModels;
 
 namespace ResortWeb.Controllers
 {
@@ -23,24 +24,40 @@ namespace ResortWeb.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            List<SelectListItem> list = _db.Villas.ToList().Select(tmp => new SelectListItem
+            //Ican use the ViewModel
+            VillaNumberVM list = new VillaNumberVM()
             {
-                Text = tmp.Name,
-                Value = tmp.Id.ToString()
-            }).ToList();
-            //u can use with view data
-            //ViewData["Villas"] = list;
-            // i will use viewbag
-            ViewBag.Villas = list;
-            return View();
+                VillaList = _db.Villas.ToList().Select(tmp => new SelectListItem
+                {
+                    Text = tmp.Name,
+                    Value = tmp.Id.ToString()
+                })
+            };
+            //you can use this way
+            //List<SelectListItem> list = _db.Villas.ToList().Select(tmp => new SelectListItem
+            //{
+            //    Text = tmp.Name,
+            //    Value = tmp.Id.ToString()
+            //}).ToList();
+            ////u can use with view data
+            ////ViewData["Villas"] = list;
+            //// i will use viewbag
+            //ViewBag.Villas = list;
+            return View(list);
         }
 
         [HttpPost]
-        public IActionResult Create(VillaNumber villaNumber)
+        public IActionResult Create(VillaNumberVM villaNumber)
         {
+            //var villa = _db.Villas.FirstOrDefault(x => x.Id == villaNumber.VillaNo);
+            //if(villa != null) { TempData["error"] = "Villa number already exists!"; return View(villaNumber); }
+            //this is one way to check uniqueness
+            //bool isUnique;
+            //isUnique = _db.VillaNumbers.Any(tmp => tmp.VillaNo == villaNumber.VillaNo);
+            //if (isUnique) { TempData["error"] = "Villa number already exists!"; return View(villaNumber); }
             if (ModelState.IsValid)
             {
-                _db.VillaNumbers.Add(villaNumber);
+                _db.VillaNumbers.Add(villaNumber.VillaNumber);
                 _db.SaveChanges();
                 TempData["Success"] = "Villa number has been created successfully!";
                 return RedirectToAction("Index");
@@ -53,25 +70,52 @@ namespace ResortWeb.Controllers
         public IActionResult Update(int id)
         {
             if (id < 0) { return RedirectToAction("Error", "Home"); }
-            var villaNumber = _db.VillaNumbers.Find(id);
-            if(villaNumber == null) {
+            VillaNumberVM villaNumberVM = new()
+            {
+                VillaNumber = _db.VillaNumbers.FirstOrDefault(x => x.VillaNo == id),
+                VillaList = _db.Villas.ToList().Select(tmp => new SelectListItem
+                {
+                    Text = tmp.Name,
+                    Value = tmp.Id.ToString()
+                })
+            };
+
+            if (villaNumberVM.VillaNumber == null)
+            {
                 return RedirectToAction("Error", "Home");
             }
-            return View(villaNumber);
+            return View(villaNumberVM);
         }
 
         [HttpPost]
-        public IActionResult Update(VillaNumber villaNumber)
+        public IActionResult Update(VillaNumberVM villaNumberVM)
         {
-            if (ModelState.IsValid) {
-                _db.Update(villaNumber);
+            if (ModelState.IsValid)
+            {
+                var villaNumberFromDb = _db.VillaNumbers.AsNoTracking().FirstOrDefault(x => x.VillaNo == villaNumberVM.VillaNumber.VillaNo);
+
+                if (villaNumberFromDb == null)
+                {
+                    TempData["error"] = "Villa number not found!";
+                    return RedirectToAction("Index");
+                }
+
+                _db.VillaNumbers.Update(villaNumberVM.VillaNumber);
                 _db.SaveChanges();
+
                 TempData["Success"] = "Villa number has been updated successfully!";
                 return RedirectToAction("Index");
             }
+
             TempData["error"] = "Villa number couldn't be updated!";
-            return View(villaNumber);
+            villaNumberVM.VillaList = _db.Villas.ToList().Select(tmp => new SelectListItem
+            {
+                Text = tmp.Name,
+                Value = tmp.Id.ToString()
+            });
+            return View(villaNumberVM);
         }
+
 
         [HttpGet]
         public IActionResult Delete(int id)
