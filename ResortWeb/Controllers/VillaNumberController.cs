@@ -121,18 +121,23 @@ namespace ResortWeb.Controllers
         public IActionResult Delete(int id)
         {
             if (id < 0) { return RedirectToAction("Error", "Home"); }
-            var villaNumber = _db.VillaNumbers.Find(id);
-            if (villaNumber == null)
+            var villaNumberVM = new VillaNumberVM()
             {
-                return RedirectToAction("Error", "Home");
-            }
-            return View(villaNumber);
+                VillaNumber = _db.VillaNumbers.FirstOrDefault(x => x.VillaNo == id),
+                VillaList = _db.Villas.ToList().Select(tmp => new SelectListItem
+                {
+                    Text = tmp.Name,
+                    Value = tmp.Id.ToString()
+                })
+            };
+            return View(villaNumberVM);
         }
 
+
         [HttpPost]
-        public IActionResult Delete(VillaNumber villaNumber)
+        public IActionResult Delete(VillaNumberVM villaNumber)
         {
-            var existingVillaNumber = _db.VillaNumbers.Find(villaNumber.VillaNo);
+            var existingVillaNumber = _db.VillaNumbers.FirstOrDefault(x => x.VillaNo == villaNumber.VillaNumber.VillaNo);
             if (existingVillaNumber == null)
             {
                 TempData["error"] = "Villa number couldn't be deleted!";
