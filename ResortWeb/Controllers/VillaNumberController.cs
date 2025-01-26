@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Resort.Domain.Entities;
 using Resort.Infrastructure.Data;
@@ -22,6 +23,15 @@ namespace ResortWeb.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            List<SelectListItem> list = _db.Villas.ToList().Select(tmp => new SelectListItem
+            {
+                Text = tmp.Name,
+                Value = tmp.Id.ToString()
+            }).ToList();
+            //u can use with view data
+            //ViewData["Villas"] = list;
+            // i will use viewbag
+            ViewBag.Villas = list;
             return View();
         }
 

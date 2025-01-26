@@ -24,7 +24,16 @@
                             <span asp-validation-for="@Model.VillaNo" class="text-danger"></span>
                         </div> *@
                         <div class="form-floating py-2 col-12">
-                            <input asp-for="@Model.VillaId" class="form-control border shadow" />
+                            @* <input asp-for="@Model.VillaId" class="form-control border shadow" /> *@
+
+                            <!--You can use it with ViewData-->
+                            @* <select asp-for="@Model.VillaId" asp-items="@ViewData["Villas"] as List< SelectListItem>" class="form-select border shadow">
+                                <option disabled selected>--Select Villa--</option>
+                            </select> *@
+                            <!--But I Prefer to use it with ViewBag it is more simple-->
+                            <select asp-for="@Model.VillaId" asp-items="@ViewBag.Villas" class="form-select border shadow">
+                                <option disabled selected>--Select Villa--</option>
+                            </select>
                             <label asp-for="@Model.VillaId" class="form-label sm-2">Villa Id</label>
                             <span asp-validation-for="@Model.VillaId" class="text-danger"></span>
                         </div>
@@ -52,7 +61,7 @@
     </div>
 </div>
 
-@section Scripts{
+@section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
 
