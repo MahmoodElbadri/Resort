@@ -15,5 +15,18 @@ namespace Resort.Web.Controllers
             var villas = _db.Villas.ToList();
             return View(villas);
         }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Create(Villa villa)
+        {
+            _db.Villas.Add(villa);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }

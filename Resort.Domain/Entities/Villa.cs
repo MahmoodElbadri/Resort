@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -13,10 +14,12 @@ namespace Resort.Domain.Entities
         [Required]
         public string? Name { get; set; }
         public int Capacity { get; set; }
+        [DisplayName("Price per Night")]
         public double Price { get; set; }
         public string? Description { get; set; }
         public int Occupancy { get; set; }
         public int Sqft { get; set; }
+        [DisplayName("Image URL")]
         public string? ImageUrl { get; set; }
         public DateTime? CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
