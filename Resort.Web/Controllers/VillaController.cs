@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Resort.Infrastructure.Data;
 using Resort.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Resort.Web.Controllers
 {
@@ -66,6 +67,19 @@ namespace Resort.Web.Controllers
                 return RedirectToAction("Error", "Home");
             }
             return View(villa);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(Villa villa)
+        {
+            var existedVilla = _db.Villas.AsNoTracking().FirstOrDefault(v => v.Id == villa.Id);
+            if (existedVilla is not null)
+            {
+                _db.Villas.Remove(villa);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View();
         }
     }
 }
