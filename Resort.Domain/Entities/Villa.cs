@@ -12,11 +12,14 @@ namespace Resort.Domain.Entities
     {
         public int Id { get; set; }
         [Required]
+        [MaxLength(30)]
         public string? Name { get; set; }
         public int Capacity { get; set; }
         [DisplayName("Price per Night")]
+        [Range(10,10000)]
         public double Price { get; set; }
         public string? Description { get; set; }
+        [Range(1,10)]
         public int Occupancy { get; set; }
         public int Sqft { get; set; }
         [DisplayName("Image URL")]

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Resort.Infrastructure.Data;
+using Resort.Domain.Entities;
 
 namespace Resort.Web.Controllers
 {
@@ -24,9 +25,24 @@ namespace Resort.Web.Controllers
         [HttpPost]
         public IActionResult Create(Villa villa)
         {
-            _db.Villas.Add(villa);
-            _db.SaveChanges();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                _db.Villas.Add(villa);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(villa); 
+        }
+
+        [HttpGet]
+        public IActionResult Update(int id)
+        {
+            var villa = _db.Villas.FirstOrDefault(v => v.Id == id);
+            if(villa == null)
+            {
+                return NotFound();
+            }
+            return View(villa);
         }
     }
 }
