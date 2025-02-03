@@ -56,5 +56,16 @@ namespace Resort.Web.Controllers
             }
             return View(villa);
         }
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            var villa = _db.Villas.FirstOrDefault(v => v.Id == id);
+            if (villa == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            return View(villa);
+        }
     }
 }
