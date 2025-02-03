@@ -40,7 +40,19 @@ namespace Resort.Web.Controllers
             var villa = _db.Villas.FirstOrDefault(v => v.Id == id);
             if(villa == null)
             {
-                return NotFound();
+                return RedirectToAction("Error","Home");
+            }
+            return View(villa);
+        }
+
+        [HttpPost]
+        public IActionResult Update(Villa villa)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Villas.Update(villa);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
             }
             return View(villa);
         }
