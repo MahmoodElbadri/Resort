@@ -1,0 +1,53 @@
+﻿@model IEnumerable<VillaNumber>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="w-100 card border-0 p-4">
+    <div class="card-header bg-success bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="col-12 text-center text-white">Villa Number List</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body border p-4">
+        <div class="row pb-3">
+            <div class="col-6 offset-6 pb-3 text-end">
+                <a asp-controller="VillaNumber" asp-action="Create" class="btn btn-secondary">
+                    <i class="bi bi-cloud-plus"></i> Create new Villa Number
+                </a>
+            </div>
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Villa Name</th>
+                        <th>Villa Number</th>
+                        <th>Special Details</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var villa in Model)
+                    {
+                        <tr>
+                            <td><i class="bi bi-house"></i> @villa.VillaId</td>
+                            <td>@villa.Villa_Number</td>
+                            <td>@villa.SpecialDetails</td>
+                            <td>
+                                <div class="btn-group w-75" role="group">
+                                    <a asp-controller="VillaNumber" asp-action="Update" asp-route-id="@villa.Villa_Number" class="btn btn-success mx-2">
+                                        <i class="bi bi-pencil-square"></i> Edit Villa
+                                    </a>
+                                    <a asp-controller="VillaNumber" asp-action="Delete" asp-route-id="@villa.Villa_Number" class="btn btn-danger mx-2">
+                                        <i class="bi bi-trash-fill"></i> Delete Villa
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
