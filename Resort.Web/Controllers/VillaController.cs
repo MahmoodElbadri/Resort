@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Resort.Web.Controllers
 {
     public class VillaController : Controller
-    {
+    {   
         private readonly ApplicationDbContext _db;
         public VillaController(ApplicationDbContext db)
         {
@@ -30,8 +30,10 @@ namespace Resort.Web.Controllers
             {
                 _db.Villas.Add(villa);
                 _db.SaveChanges();
+                TempData["success"] = "Villa created successfully";
                 return RedirectToAction("Index");
             }
+            TempData["error"] = "Villa has not been created";
             return View(villa); 
         }
 
@@ -53,8 +55,10 @@ namespace Resort.Web.Controllers
             {
                 _db.Villas.Update(villa);
                 _db.SaveChanges();
+                TempData["success"] = "Villa updated successfully";
                 return RedirectToAction("Index");
             }
+            TempData["error"] = "Villa has not been updated";
             return View(villa);
         }
 
@@ -77,8 +81,10 @@ namespace Resort.Web.Controllers
             {
                 _db.Villas.Remove(villa);
                 _db.SaveChanges();
+                TempData["success"] = "Villa deleted successfully";
                 return RedirectToAction("Index");
             }
+            TempData["error"] = "Villa has not been deleted";
             return View();
         }
     }
