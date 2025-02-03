@@ -1,0 +1,22 @@
+﻿@model IEnumerable<Villa>
+<table class="table table-striped table-hover table-bordered">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Square Feet</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var villa in Model)
+        {
+            <tr>
+                <th scope="row">@villa.Id</th>
+                <td>@villa.Name</td>
+                <td>@villa.Price</td>
+                <td>@villa.Sqft</td>
+            </tr>
+        }
+    </tbody>
+</table>
