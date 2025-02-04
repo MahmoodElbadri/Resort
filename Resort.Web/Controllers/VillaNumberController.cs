@@ -16,7 +16,7 @@ namespace Resort.Web.Controllers
         }
         public IActionResult Index()
         {
-            var villaNumbers = _db.VillaNumbers.ToList();
+            var villaNumbers = _db.VillaNumbers.Include(tmp=>tmp.Villa).ToList();
             return View(villaNumbers);
         }
 
@@ -53,20 +53,28 @@ namespace Resort.Web.Controllers
         [HttpGet]
         public IActionResult Update(int id)
         {
-            var villa = _db.Villas.FirstOrDefault(v => v.Id == id);
-            if (villa == null)
+            VillaNumberVM villaNumber = new VillaNumberVM()
+            {
+                VillaList = _db.Villas.Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                }).ToList(),
+                VillaNumber = _db.VillaNumbers.FirstOrDefault(v => v.Villa_Number == id)
+            };
+            if(villaNumber.VillaNumber == null)
             {
                 return RedirectToAction("Error", "Home");
             }
-            return View(villa);
+            return View(villaNumber);
         }
 
         [HttpPost]
-        public IActionResult Update(Villa villa)
+        public IActionResult Update(VillaNumberVM villa)
         {
             if (ModelState.IsValid)
             {
-                _db.Villas.Update(villa);
+                _db.VillaNumbers.Update(villa.VillaNumber);
                 _db.SaveChanges();
                 TempData["success"] = "Villa updated successfully";
                 return RedirectToAction("Index");
@@ -74,31 +82,40 @@ namespace Resort.Web.Controllers
             TempData["error"] = "Villa has not been updated";
             return View(villa);
         }
-
+            
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            var villa = _db.Villas.FirstOrDefault(v => v.Id == id);
-            if (villa == null)
+            VillaNumberVM villaNumber = new VillaNumberVM()
+            {
+                VillaList = _db.Villas.Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                }).ToList(),
+                VillaNumber = _db.VillaNumbers.FirstOrDefault(v => v.Villa_Number == id)
+            };
+            if (villaNumber.VillaNumber == null)
             {
                 return RedirectToAction("Error", "Home");
             }
-            return View(villa);
+            return View(villaNumber);
         }
 
         [HttpPost]
-        public IActionResult Delete(Villa villa)
+        public IActionResult Delete(VillaNumberVM villa)
         {
-            var existedVilla = _db.Villas.AsNoTracking().FirstOrDefault(v => v.Id == villa.Id);
-            if (existedVilla is not null)
+            var villaNumber = _db.VillaNumbers
+                .FirstOrDefault(tmp=>tmp.Villa_Number == villa.VillaNumber.Villa_Number);
+            if(villaNumber is not null)
             {
-                _db.Villas.Remove(villa);
+                _db.VillaNumbers.Remove(villaNumber);
                 _db.SaveChanges();
                 TempData["success"] = "Villa deleted successfully";
                 return RedirectToAction("Index");
             }
             TempData["error"] = "Villa has not been deleted";
-            return View();
+            return View(villa);
         }
     }
 }
