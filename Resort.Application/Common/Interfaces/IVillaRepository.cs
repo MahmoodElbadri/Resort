@@ -11,11 +11,11 @@ namespace Resort.Application.Common.Interfaces
     public interface IVillaRepository
     {
         IEnumerable<Villa> GetAll
-            (Expression<Func<IVillaRepository,bool>>? predicate = null,string? includeProperties = null);
-        IEnumerable<Villa> Get
-            (Expression<Func<IVillaRepository,bool>> predicate,string? includeProperties = null);
+            (Expression<Func<Villa,bool>>? predicate = null,string? includeProperties = null);
+        Villa Get
+            (Expression<Func<Villa,bool>> predicate,string? includeProperties = null);
         void Add(Villa entity);
-        void Update(Villa entity);
+        void Update(Villa entity);  
         void Remove(Villa entity);
         void Save();
     }

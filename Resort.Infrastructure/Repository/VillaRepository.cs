@@ -1,4 +1,5 @@
-﻿using Resort.Application.Common.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using Resort.Application.Common.Interfaces;
 using Resort.Domain.Entities;
 using Resort.Infrastructure.Data;
 using System;
@@ -26,14 +27,40 @@ public class VillaRepository : IVillaRepository
         _db.Add(entity);
     }
 
-    public IEnumerable<Villa> Get(Expression<Func<IVillaRepository, bool>> predicate, string? includeProperties = null)
+    public Villa Get(Expression<Func<Villa, bool>> predicate, string? includeProperties = null)
     {
-        throw new NotImplementedException();
+        IQueryable<Villa> query = _db.Villas;
+        if (predicate != null)
+        {
+            query = query.Where(predicate);
+        }
+        if (!string.IsNullOrEmpty(includeProperties))
+        {
+            foreach (var includeProperty in includeProperties
+                .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+        }
+        return query.FirstOrDefault();
     }
 
-    public IEnumerable<Villa> GetAll(Expression<Func<IVillaRepository, bool>>? predicate = null, string? includeProperties = null)
+    public IEnumerable<Villa> GetAll(Expression<Func<Villa, bool>>? predicate = null, string? includeProperties = null)
     {
-        throw new NotImplementedException();
+        IQueryable<Villa> query = _db.Villas;
+        if(predicate != null)
+        {
+            query = query.Where(predicate);
+        }
+        if (!string.IsNullOrEmpty(includeProperties))
+        {
+            foreach (var includeProperty in includeProperties
+                .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+        }
+        return query.ToList();
     }
 
     public void Remove(Villa entity)
