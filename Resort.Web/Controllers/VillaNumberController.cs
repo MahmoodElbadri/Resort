@@ -2,6 +2,7 @@
 using Resort.Infrastructure.Data;
 using Resort.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Resort.Web.Controllers
 {
@@ -21,6 +22,12 @@ namespace Resort.Web.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            var villas = _db.Villas.ToList().Select(tmp => new SelectListItem
+            {
+                Text = tmp.Name,
+                Value = tmp.Id.ToString()
+            });
+            ViewBag.villas = villas;
             return View();
         }
         [HttpPost]
