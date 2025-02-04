@@ -2,19 +2,21 @@
 using Resort.Infrastructure.Data;
 using Resort.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Resort.Application.Common.Interfaces;
 
 namespace Resort.Web.Controllers
 {
     public class VillaController : Controller
     {   
-        private readonly ApplicationDbContext _db;
-        public VillaController(ApplicationDbContext db)
+        private readonly IVillaRepository _villaRepo;
+
+        public VillaController(IVillaRepository villaRepo)
         {
-            _db = db;
+            this._villaRepo = villaRepo;
         }
         public IActionResult Index()
         {
-            var villas = _db.Villas.ToList();
+            var villas = _villaRepo.GetAll();
             return View(villas);
         }
 
@@ -28,8 +30,8 @@ namespace Resort.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.Villas.Add(villa);
-                _db.SaveChanges();
+                _villaRepo.Add(villa);
+                _villaRepo.Save();
                 TempData["success"] = "Villa created successfully";
                 return RedirectToAction("Index");
             }
@@ -40,7 +42,7 @@ namespace Resort.Web.Controllers
         [HttpGet]
         public IActionResult Update(int id)
         {
-            var villa = _db.Villas.FirstOrDefault(v => v.Id == id);
+            var villa = _villaRepo.Get(v => v.Id == id);
             if(villa == null)
             {
                 return RedirectToAction("Error","Home");
@@ -53,8 +55,8 @@ namespace Resort.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.Villas.Update(villa);
-                _db.SaveChanges();
+                _villaRepo.Update(villa);
+                _villaRepo.Save();
                 TempData["success"] = "Villa updated successfully";
                 return RedirectToAction("Index");
             }
@@ -65,7 +67,7 @@ namespace Resort.Web.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            var villa = _db.Villas.FirstOrDefault(v => v.Id == id);
+            var villa = _villaRepo.Get  (v => v.Id == id);
             if (villa == null)
             {
                 return RedirectToAction("Error", "Home");
@@ -76,11 +78,11 @@ namespace Resort.Web.Controllers
         [HttpPost]
         public IActionResult Delete(Villa villa)
         {
-            var existedVilla = _db.Villas.AsNoTracking().FirstOrDefault(v => v.Id == villa.Id);
+            var existedVilla = _villaRepo.Get(v => v.Id == villa.Id);
             if (existedVilla is not null)
             {
-                _db.Villas.Remove(villa);
-                _db.SaveChanges();
+                _villaRepo.Remove(existedVilla);
+                _villaRepo.Save();
                 TempData["success"] = "Villa deleted successfully";
                 return RedirectToAction("Index");
             }
