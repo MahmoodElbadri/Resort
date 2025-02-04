@@ -3,11 +3,12 @@ using Resort.Infrastructure.Data;
 using Resort.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Resort.Web.ViewModels;
 
 namespace Resort.Web.Controllers
 {
     public class VillaNumberController : Controller
-    {   
+    {
         private readonly ApplicationDbContext _db;
         public VillaNumberController(ApplicationDbContext db)
         {
@@ -22,36 +23,40 @@ namespace Resort.Web.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            var villas = _db.Villas.ToList().Select(tmp => new SelectListItem
+            VillaNumberVM villas = new VillaNumberVM()
             {
-                Text = tmp.Name,
-                Value = tmp.Id.ToString()
-            });
-            ViewBag.villas = villas;
-            return View();
+                VillaList = _db.Villas.Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                }).ToList()
+            };
+            //ViewBag.villas = villas;
+            return View(villas);
         }
         [HttpPost]
-        public IActionResult Create(VillaNumber villa)
+        public IActionResult Create(VillaNumberVM villa)
         {
             ModelState.Remove("Villa");
+            var villaNumber = villa.VillaNumber;
             if (ModelState.IsValid)
             {
-                _db.VillaNumbers.Add(villa);
+                _db.VillaNumbers.Add(villaNumber);
                 _db.SaveChanges();
                 TempData["success"] = "Villa number created successfully";
                 return RedirectToAction("Index");
             }
             TempData["error"] = "Villa number has not been created";
-            return View(villa); 
+            return View(villa);
         }
 
         [HttpGet]
         public IActionResult Update(int id)
         {
             var villa = _db.Villas.FirstOrDefault(v => v.Id == id);
-            if(villa == null)
+            if (villa == null)
             {
-                return RedirectToAction("Error","Home");
+                return RedirectToAction("Error", "Home");
             }
             return View(villa);
         }
