@@ -1,5 +1,7 @@
-﻿using Resort.Application.Common.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using Resort.Application.Common.Interfaces;
 using Resort.Domain.Entities;
+using Resort.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,24 +13,58 @@ namespace Resort.Infrastructure.Repository
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        public void Add(Villa entity)
+        private readonly ApplicationDbContext _db;
+        internal readonly DbSet<T> _dbSet;
+        public Repository(ApplicationDbContext db)
         {
-            throw new NotImplementedException();
+            _db = db;
+            _dbSet = _db.Set<T>();
         }
 
-        public Villa Get(Expression<Func<Villa, bool>> predicate, string? includeProperties = null)
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? predicate = null, string? includeProperties = null)
         {
-            throw new NotImplementedException();
+            IQueryable<T> query = _dbSet;
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var includeProperty in includeProperties
+                    .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProperty);
+                }
+            }
+            return query.ToList();
         }
 
-        public IEnumerable<Villa> GetAll(Expression<Func<Villa, bool>>? predicate = null, string? includeProperties = null)
+        public T Get(Expression<Func<T, bool>> predicate, string? includeProperties = null)
         {
-            throw new NotImplementedException();
+            IQueryable<T> query = _dbSet;
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var includeProperty in includeProperties
+                    .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProperty);
+                }
+            }
+            return query.FirstOrDefault();
         }
 
-        public void Remove(Villa entity)
+        public void Add(T entity)
         {
-            throw new NotImplementedException();
+            _dbSet.Add(entity); 
+        }
+
+        public void Remove(T entity)
+        {
+            _dbSet.Remove(entity);
         }
     }
 }

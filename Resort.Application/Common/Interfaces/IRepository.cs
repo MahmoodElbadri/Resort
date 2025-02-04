@@ -10,11 +10,11 @@ namespace Resort.Application.Common.Interfaces
 {
     public interface IRepository<T> where T : class
     {
-        IEnumerable<Villa> GetAll
-            (Expression<Func<Villa, bool>>? predicate = null, string? includeProperties = null);
-        Villa Get
-            (Expression<Func<Villa, bool>> predicate, string? includeProperties = null);
-        void Add(Villa entity);
-        void Remove(Villa entity);
+        IEnumerable<T> GetAll
+            (Expression<Func<T, bool>>? predicate = null, string? includeProperties = null);
+        T Get
+            (Expression<Func<T, bool>> predicate, string? includeProperties = null);
+        void Add(T entity);
+        void Remove(T entity);
     }
 }
