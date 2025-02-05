@@ -7,7 +7,7 @@ using Resort.Application.Common.Interfaces;
 namespace Resort.Web.Controllers;
 
 public class VillaController : Controller
-{   
+{
     private readonly IUnitOfWork _unitOfWork;
     private readonly IWebHostEnvironment _webHostEnvironment;
 
@@ -65,16 +65,16 @@ public class VillaController : Controller
             return RedirectToAction("Index");
         }
         TempData["error"] = "Villa has not been created";
-        return View(villa); 
+        return View(villa);
     }
 
     [HttpGet]
     public IActionResult Update(int id)
     {
         var villa = _unitOfWork.Villa.Get(v => v.Id == id);
-        if(villa == null)
+        if (villa == null)
         {
-            return RedirectToAction("Error","Home");
+            return RedirectToAction("Error", "Home");
         }
         return View(villa);
     }
@@ -84,6 +84,34 @@ public class VillaController : Controller
     {
         if (ModelState.IsValid)
         {
+            if (ModelState.IsValid)
+            {
+                if (villa.Image != null)
+                {
+
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(villa.Image.FileName);
+                    string folderPath = Path.Combine(_webHostEnvironment.WebRootPath, "Images/VillaImages");
+
+                    string filePath = Path.Combine(folderPath, fileName);
+
+                    if (!string.IsNullOrEmpty(villa.ImageUrl))
+                    {
+                        string oldFilePath = Path.Combine(folderPath, Path.GetFileName(villa.ImageUrl));
+                        if (System.IO.File.Exists(oldFilePath))
+                        {
+                            System.IO.File.Delete(oldFilePath);
+                        }
+                    }
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        villa.Image.CopyTo(fileStream);
+                    }
+
+                    // Store correct relative URL for the image (not full server path)
+                    villa.ImageUrl = "/Images/VillaImages/" + fileName;
+                }
+            }
             _unitOfWork.Villa.Update(villa);
             _unitOfWork.Save();
             TempData["success"] = "Villa updated successfully";
@@ -92,11 +120,11 @@ public class VillaController : Controller
         TempData["error"] = "Villa has not been updated";
         return View(villa);
     }
-        
+
     [HttpGet]
     public IActionResult Delete(int id)
     {
-        var villa = _unitOfWork.Villa.Get  (v => v.Id == id);
+        var villa = _unitOfWork.Villa.Get(v => v.Id == id);
         if (villa == null)
         {
             return RedirectToAction("Error", "Home");
