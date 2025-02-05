@@ -9,10 +9,12 @@ namespace Resort.Web.Controllers;
 public class VillaController : Controller
 {   
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
-    public VillaController(IUnitOfWork unitOfWork)
+    public VillaController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
     {
         this._unitOfWork = unitOfWork;
+        this._webHostEnvironment = webHostEnvironment;
     }
     public IActionResult Index()
     {
@@ -30,6 +32,20 @@ public class VillaController : Controller
     {
         if (ModelState.IsValid)
         {
+            if(villa.Image != null)
+            {
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(villa.Image.FileName);
+                string path = Path.Combine(_webHostEnvironment.WebRootPath, @"Images\VillaImages");
+                using (var fileStream = new FileStream(Path.Combine(path, fileName), FileMode.Create))
+                {
+                    villa.Image.CopyTo(fileStream);
+                    villa.ImageUrl = @"Images\VillaImages\" + fileName;
+                }
+            }
+            else
+            {
+                villa.ImageUrl = "https://placehold.co/600x400";
+            }
             _unitOfWork.Villa.Add(villa);
             _unitOfWork.Save();
             TempData["success"] = "Villa created successfully";
