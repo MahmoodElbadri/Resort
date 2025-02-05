@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace Resort.Application.Common.Interfaces
 {
-    public interface IVillaRepository :IRepository<Villa>
+    public interface IVillaRepository : IRepository<Villa>
     {
-            void Update(Villa entity);  
-            void Save();
+        void Update(Villa entity);
     }
 }

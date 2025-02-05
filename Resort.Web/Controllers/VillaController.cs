@@ -31,7 +31,7 @@ public class VillaController : Controller
         if (ModelState.IsValid)
         {
             _unitOfWork.Villa.Add(villa);
-            _unitOfWork.Villa.Save();
+            _unitOfWork.Save();
             TempData["success"] = "Villa created successfully";
             return RedirectToAction("Index");
         }
@@ -56,7 +56,7 @@ public class VillaController : Controller
         if (ModelState.IsValid)
         {
             _unitOfWork.Villa.Update(villa);
-            _unitOfWork.Villa.Save();
+            _unitOfWork.Save();
             TempData["success"] = "Villa updated successfully";
             return RedirectToAction("Index");
         }
@@ -82,7 +82,7 @@ public class VillaController : Controller
         if (existedVilla is not null)
         {
             _unitOfWork.Villa.Remove(existedVilla);
-            _unitOfWork.Villa.Save();
+            _unitOfWork.Save();
             TempData["success"] = "Villa deleted successfully";
             return RedirectToAction("Index");
         }
