@@ -138,6 +138,15 @@ public class VillaController : Controller
         var existedVilla = _unitOfWork.Villa.Get(v => v.Id == villa.Id);
         if (existedVilla is not null)
         {
+            if (!string.IsNullOrEmpty(villa.ImageUrl))
+            {
+                string oldFilePath = Path.Combine(_webHostEnvironment.WebRootPath, existedVilla.ImageUrl.TrimStart('/'));
+                if (System.IO.File.Exists(oldFilePath))
+                {
+                    System.IO.File.Delete(oldFilePath);
+                }
+            }
+
             _unitOfWork.Villa.Remove(existedVilla);
             _unitOfWork.Save();
             TempData["success"] = "Villa deleted successfully";
