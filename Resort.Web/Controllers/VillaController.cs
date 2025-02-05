@@ -32,20 +32,33 @@ public class VillaController : Controller
     {
         if (ModelState.IsValid)
         {
-            if(villa.Image != null)
+            if (villa.Image != null)
             {
                 string fileName = Guid.NewGuid().ToString() + Path.GetExtension(villa.Image.FileName);
-                string path = Path.Combine(_webHostEnvironment.WebRootPath, @"Images\VillaImages");
-                using (var fileStream = new FileStream(Path.Combine(path, fileName), FileMode.Create))
+                string folderPath = Path.Combine(_webHostEnvironment.WebRootPath, "Images/VillaImages");
+
+                // Ensure directory exists
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+
+                string filePath = Path.Combine(folderPath, fileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
                     villa.Image.CopyTo(fileStream);
-                    villa.ImageUrl = @"Images\VillaImages\" + fileName;
                 }
+
+                // Store correct relative URL for the image (not full server path)
+                villa.ImageUrl = "/Images/VillaImages/" + fileName;
             }
             else
             {
-                villa.ImageUrl = "https://placehold.co/600x400";
+                villa.ImageUrl = "/Images/placeholder.jpg";  // Make sure placeholder is in wwwroot
             }
+
+
             _unitOfWork.Villa.Add(villa);
             _unitOfWork.Save();
             TempData["success"] = "Villa created successfully";
@@ -79,7 +92,7 @@ public class VillaController : Controller
         TempData["error"] = "Villa has not been updated";
         return View(villa);
     }
-
+        
     [HttpGet]
     public IActionResult Delete(int id)
     {
