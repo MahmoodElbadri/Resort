@@ -2,15 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Resort.Application.Common.Interfaces
 {
-    public interface IVillaRepository :IRepository<Villa>
+    public interface IVillaNumberRepository:IRepository<VillaNumber>
     {
-            void Update(Villa entity);  
-            void Save();
+        void Update(VillaNumber entity);
+        void Save();
     }
 }
