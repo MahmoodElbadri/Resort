@@ -12,6 +12,7 @@ namespace Resort.Infrastructure.Data
     {
         public DbSet<Villa> Villas { get; set; }
         public DbSet<VillaNumber> VillaNumbers { get; set; }
+        public DbSet<Amenity> Amenities { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
             
@@ -99,6 +100,36 @@ namespace Resort.Infrastructure.Data
                 {
                     Villa_Number = 203,
                     VillaId = 2,
+                }
+                );
+            modelBuilder.Entity<Amenity>().HasData(
+                new Amenity
+                {
+                    Id = 1,
+                    Name = "Air conditioning",
+                    Description = "This is details of Amenity 1",
+                     VillaId = 3,
+                },
+                new Amenity
+                {
+                    Id = 2,
+                    Name = "Microwave",
+                    Description = "This is details of Amenity 2",
+                    VillaId = 15,
+                },
+                new Amenity
+                {
+                    Id = 3,
+                    Name = "Refrigerator",
+                    Description = "This is details of Amenity 3",
+                    VillaId = 15
+                },
+                new Amenity
+                {
+                    Id = 4,
+                    Name = "Oven",
+                    Description = "This is details of Amenity 4",
+                    VillaId = 15
                 }
                 );
         }
