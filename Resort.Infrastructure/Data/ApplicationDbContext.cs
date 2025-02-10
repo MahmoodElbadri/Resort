@@ -8,18 +8,57 @@ using System.Threading.Tasks;
 
 namespace Resort.Infrastructure.Data
 {
-    public class ApplicationDbContext:DbContext
+    public class ApplicationDbContext : DbContext
     {
         public DbSet<Villa> Villas { get; set; }
         public DbSet<VillaNumber> VillaNumbers { get; set; }
         public DbSet<Amenity> Amenities { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-            
+
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            // Configure Villa entity
+            modelBuilder.Entity<Villa>(entity =>
+            {
+                entity.HasKey(v => v.Id); // Primary key
+                entity.Property(v => v.Name).IsRequired().HasMaxLength(30); // Name is required and has max length of 30
+                entity.Property(v => v.Price).HasColumnType("decimal(18,2)"); // Price as decimal for precision
+                entity.Property(v => v.Description).HasMaxLength(500); // Optional description with max length
+                entity.Property(v => v.ImageUrl).HasMaxLength(200); // Image URL with max length
+                entity.Property(v => v.CreatedDate).HasDefaultValueSql("GETDATE()"); // Default to current date
+                entity.Property(v => v.UpdatedDate).HasDefaultValueSql("GETDATE()"); // Default to current date
+            });
+
+            // Configure VillaNumber entity
+            modelBuilder.Entity<VillaNumber>(entity =>
+            {
+                entity.HasKey(vn => vn.Villa_Number); // Primary key
+                entity.Property(vn => vn.SpecialDetails).HasMaxLength(500); // Optional special details with max length
+
+                // Configure relationship with Villa
+                entity.HasOne(vn => vn.Villa)
+                      .WithMany()
+                      .HasForeignKey(vn => vn.VillaId)
+                      .OnDelete(DeleteBehavior.Cascade); // Cascade delete if Villa is deleted
+            });
+
+            // Configure Amenity entity
+            modelBuilder.Entity<Amenity>(entity =>
+            {
+                entity.HasKey(a => a.Id); // Primary key
+                entity.Property(a => a.Name).IsRequired().HasMaxLength(50); // Name is required and has max length
+                entity.Property(a => a.Description).HasMaxLength(500); // Optional description with max length
+
+                // Configure relationship with Villa
+                entity.HasOne(a => a.Villa)
+                      .WithMany()
+                      .HasForeignKey(a => a.VillaId)
+                      .OnDelete(DeleteBehavior.Cascade); // Cascade delete if Villa is deleted
+            });
+
+            // Seed data for Villa
             modelBuilder.Entity<Villa>().HasData(
                 new Villa
                 {
@@ -31,107 +70,70 @@ namespace Resort.Infrastructure.Data
                     Occupancy = 4,
                     CreatedDate = DateTime.Now,
                     UpdatedDate = DateTime.Now,
-                    ImageUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.independent.co.uk%2Ftravel%2Fvilla-holidays-europe-spain-greece-portugal-cyprus-b2472690.html&psig=AOvVaw25JOKvkOKym5g2kAZYqZ9O&ust=1737838204750000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCOCdp_mdj4sDFQAAAAAdAAAAABAE"
+                    ImageUrl = "https://example.com/images/royal-villa.jpg" // Replace with valid image URL
                 },
-                new Villa()
+                new Villa
                 {
                     Id = 2,
                     Name = "Palace Villa",
-                    Occupancy = 4,
+                    Description = "This is details of Villa 2",
                     Price = 150,
-                    ImageUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.villaplus.com%2Fbest-villa-holidays&psig=AOvVaw25JOKvkOKym5g2kAZYqZ9O&ust=1737838204750000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCOCdp_mdj4sDFQAAAAAdAAAAABAJ",
+                    Sqft = 200,
+                    Occupancy = 4,
                     CreatedDate = DateTime.Now,
                     UpdatedDate = DateTime.Now,
-                    Sqft = 200,
-                    Description = "This is details of Villa 2"
+                    ImageUrl = "https://example.com/images/palace-villa.jpg" // Replace with valid image URL
                 },
-                new Villa()
+                new Villa
                 {
                     Id = 3,
                     Name = "Paradise Villa",
                     Description = "This is details of Villa 3",
+                    Price = 600,
                     Sqft = 100,
-                    UpdatedDate = DateTime.Now,
-                    CreatedDate = DateTime.Now,
-                    ImageUrl = "https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.rentvillasalgarve.co.uk%2Fmedia%2F2418546%2FLuxury-holiday-villa-rental-Quinta-do-Lago.jpg%3Fwidth%3D600%26height%3D420%26scale%3Dboth%26mode%3Dcrop%26quality%3D75&tbnid=2pgayn9pyvB0yM&vet=10CBIQxiAoAmoXChMI4J2n-Z2PiwMVAAAAAB0AAAAAEA8..i&imgrefurl=https%3A%2F%2Fwww.rentvillasalgarve.co.uk%2F&docid=TF4EoHH-oNiY2M&w=600&h=420&itg=1&q=villas&ved=0CBIQxiAoAmoXChMI4J2n-Z2PiwMVAAAAAB0AAAAAEA8",
                     Occupancy = 4,
-                    Price = 600
+                    CreatedDate = DateTime.Now,
+                    UpdatedDate = DateTime.Now,
+                    ImageUrl = "https://example.com/images/paradise-villa.jpg" // Replace with valid image URL
                 },
-                new Villa()
+                new Villa
                 {
                     Id = 4,
                     Name = "Luxury Villa",
                     Description = "This is details of Villa 4",
+                    Price = 700,
                     Sqft = 120,
-                    UpdatedDate = DateTime.Now,
-                    CreatedDate = DateTime.Now,
                     Occupancy = 4,
-                    ImageUrl = "https://www.google.com/imgres?imgurl=https%3A%2F%2Fvillaimages.villaplus.com%2Fimages%2Fvillas%2Fphotos%2F8bb14538-2835-41ba-9c8c-e739fd8069a5_725.jpg&tbnid=H7579zpt_96g-M&vet=10CBYQxiAoCGoXChMI4J2n-Z2PiwMVAAAAAB0AAAAAEA8..i&imgrefurl=https%3A%2F%2Fwww.villaplus.com%2Fdestinations%2Fvillas-in-spain%2Fvillas-in-balearic-islands%2Fmenorca%2Fcalan-porter&docid=t6qGL44sGUmn4M&w=725&h=482&itg=1&q=villas&ved=0CBYQxiAoCGoXChMI4J2n-Z2PiwMVAAAAAB0AAAAAEA8",
-                    Price = 700
+                    CreatedDate = DateTime.Now,
+                    UpdatedDate = DateTime.Now,
+                    ImageUrl = "https://example.com/images/luxury-villa.jpg" // Replace with valid image URL
                 }
-                );
+            );
+
+            // Seed data for VillaNumber
             modelBuilder.Entity<VillaNumber>().HasData(
-                new VillaNumber
-                {
-                    Villa_Number = 101,
-                    VillaId = 1,
-                },
-                new VillaNumber
-                {
-                    Villa_Number = 102,
-                    VillaId = 1,
-                },
-                new VillaNumber
-                {
-                    Villa_Number = 103,
-                    VillaId = 1,
-                },
-                new VillaNumber
-                {
-                    Villa_Number = 201,
-                    VillaId = 2,
-                },
-                new VillaNumber
-                {
-                    Villa_Number = 202,
-                    VillaId = 2,
-                },
-                new VillaNumber
-                {
-                    Villa_Number = 203,
-                    VillaId = 2,
-                }
-                );
+                new VillaNumber { Villa_Number = 101, VillaId = 1 },
+                new VillaNumber { Villa_Number = 102, VillaId = 1 },
+                new VillaNumber { Villa_Number = 103, VillaId = 1 },
+                new VillaNumber { Villa_Number = 201, VillaId = 2 },
+                new VillaNumber { Villa_Number = 202, VillaId = 2 },
+                new VillaNumber { Villa_Number = 203, VillaId = 2 }
+            );
+
+            // Seed data for Amenity
             modelBuilder.Entity<Amenity>().HasData(
-                new Amenity
-                {
-                    Id = 1,
-                    Name = "Air conditioning",
-                    Description = "This is details of Amenity 1",
-                     VillaId = 3,
-                },
-                new Amenity
-                {
-                    Id = 2,
-                    Name = "Microwave",
-                    Description = "This is details of Amenity 2",
-                    VillaId = 15,
-                },
-                new Amenity
-                {
-                    Id = 3,
-                    Name = "Refrigerator",
-                    Description = "This is details of Amenity 3",
-                    VillaId = 15
-                },
-                new Amenity
-                {
-                    Id = 4,
-                    Name = "Oven",
-                    Description = "This is details of Amenity 4",
-                    VillaId = 15
-                }
-                );
+                new Amenity { Id = 1, VillaId = 1, Name = "Private Pool" },
+                new Amenity { Id = 2, VillaId = 1, Name = "Microwave" },
+                new Amenity { Id = 3, VillaId = 1, Name = "Private Balcony" },
+                new Amenity { Id = 4, VillaId = 1, Name = "1 king bed and 1 sofa bed" },
+                new Amenity { Id = 5, VillaId = 2, Name = "Private Plunge Pool" },
+                new Amenity { Id = 6, VillaId = 2, Name = "Microwave and Mini Refrigerator" },
+                new Amenity { Id = 7, VillaId = 2, Name = "Private Balcony" },
+                new Amenity { Id = 8, VillaId = 2, Name = "King bed or 2 double beds" },
+                new Amenity { Id = 9, VillaId = 3, Name = "Private Pool" },
+                new Amenity { Id = 10, VillaId = 3, Name = "Jacuzzi" },
+                new Amenity { Id = 11, VillaId = 3, Name = "Private Balcony" }
+            );
         }
     }
 }

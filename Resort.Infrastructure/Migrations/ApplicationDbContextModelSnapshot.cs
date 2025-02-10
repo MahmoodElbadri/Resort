@@ -31,11 +31,13 @@ namespace Resort.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("VillaId")
                         .HasColumnType("int");
@@ -50,30 +52,68 @@ namespace Resort.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            Description = "This is details of Amenity 1",
-                            Name = "Air conditioning",
-                            VillaId = 3
+                            Name = "Private Pool",
+                            VillaId = 1
                         },
                         new
                         {
                             Id = 2,
-                            Description = "This is details of Amenity 2",
                             Name = "Microwave",
-                            VillaId = 15
+                            VillaId = 1
                         },
                         new
                         {
                             Id = 3,
-                            Description = "This is details of Amenity 3",
-                            Name = "Refrigerator",
-                            VillaId = 15
+                            Name = "Private Balcony",
+                            VillaId = 1
                         },
                         new
                         {
                             Id = 4,
-                            Description = "This is details of Amenity 4",
-                            Name = "Oven",
-                            VillaId = 15
+                            Name = "1 king bed and 1 sofa bed",
+                            VillaId = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Private Plunge Pool",
+                            VillaId = 2
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Microwave and Mini Refrigerator",
+                            VillaId = 2
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Private Balcony",
+                            VillaId = 2
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "King bed or 2 double beds",
+                            VillaId = 2
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "Private Pool",
+                            VillaId = 3
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "Jacuzzi",
+                            VillaId = 3
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Name = "Private Balcony",
+                            VillaId = 3
                         });
                 });
 
@@ -89,13 +129,17 @@ namespace Resort.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -105,14 +149,16 @@ namespace Resort.Infrastructure.Migrations
                     b.Property<int>("Occupancy")
                         .HasColumnType("int");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Sqft")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.HasKey("Id");
 
@@ -123,53 +169,53 @@ namespace Resort.Infrastructure.Migrations
                         {
                             Id = 1,
                             Capacity = 0,
-                            CreatedDate = new DateTime(2025, 2, 7, 22, 29, 29, 680, DateTimeKind.Local).AddTicks(3025),
+                            CreatedDate = new DateTime(2025, 2, 10, 19, 47, 54, 470, DateTimeKind.Local).AddTicks(8540),
                             Description = "This is details of Villa 1",
-                            ImageUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.independent.co.uk%2Ftravel%2Fvilla-holidays-europe-spain-greece-portugal-cyprus-b2472690.html&psig=AOvVaw25JOKvkOKym5g2kAZYqZ9O&ust=1737838204750000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCOCdp_mdj4sDFQAAAAAdAAAAABAE",
+                            ImageUrl = "https://example.com/images/royal-villa.jpg",
                             Name = "Royal Villa",
                             Occupancy = 4,
-                            Price = 200.0,
+                            Price = 200m,
                             Sqft = 300,
-                            UpdatedDate = new DateTime(2025, 2, 7, 22, 29, 29, 680, DateTimeKind.Local).AddTicks(3093)
+                            UpdatedDate = new DateTime(2025, 2, 10, 19, 47, 54, 470, DateTimeKind.Local).AddTicks(8711)
                         },
                         new
                         {
                             Id = 2,
                             Capacity = 0,
-                            CreatedDate = new DateTime(2025, 2, 7, 22, 29, 29, 680, DateTimeKind.Local).AddTicks(3100),
+                            CreatedDate = new DateTime(2025, 2, 10, 19, 47, 54, 470, DateTimeKind.Local).AddTicks(8723),
                             Description = "This is details of Villa 2",
-                            ImageUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.villaplus.com%2Fbest-villa-holidays&psig=AOvVaw25JOKvkOKym5g2kAZYqZ9O&ust=1737838204750000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCOCdp_mdj4sDFQAAAAAdAAAAABAJ",
+                            ImageUrl = "https://example.com/images/palace-villa.jpg",
                             Name = "Palace Villa",
                             Occupancy = 4,
-                            Price = 150.0,
+                            Price = 150m,
                             Sqft = 200,
-                            UpdatedDate = new DateTime(2025, 2, 7, 22, 29, 29, 680, DateTimeKind.Local).AddTicks(3103)
+                            UpdatedDate = new DateTime(2025, 2, 10, 19, 47, 54, 470, DateTimeKind.Local).AddTicks(8728)
                         },
                         new
                         {
                             Id = 3,
                             Capacity = 0,
-                            CreatedDate = new DateTime(2025, 2, 7, 22, 29, 29, 680, DateTimeKind.Local).AddTicks(3111),
+                            CreatedDate = new DateTime(2025, 2, 10, 19, 47, 54, 470, DateTimeKind.Local).AddTicks(8734),
                             Description = "This is details of Villa 3",
-                            ImageUrl = "https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.rentvillasalgarve.co.uk%2Fmedia%2F2418546%2FLuxury-holiday-villa-rental-Quinta-do-Lago.jpg%3Fwidth%3D600%26height%3D420%26scale%3Dboth%26mode%3Dcrop%26quality%3D75&tbnid=2pgayn9pyvB0yM&vet=10CBIQxiAoAmoXChMI4J2n-Z2PiwMVAAAAAB0AAAAAEA8..i&imgrefurl=https%3A%2F%2Fwww.rentvillasalgarve.co.uk%2F&docid=TF4EoHH-oNiY2M&w=600&h=420&itg=1&q=villas&ved=0CBIQxiAoAmoXChMI4J2n-Z2PiwMVAAAAAB0AAAAAEA8",
+                            ImageUrl = "https://example.com/images/paradise-villa.jpg",
                             Name = "Paradise Villa",
                             Occupancy = 4,
-                            Price = 600.0,
+                            Price = 600m,
                             Sqft = 100,
-                            UpdatedDate = new DateTime(2025, 2, 7, 22, 29, 29, 680, DateTimeKind.Local).AddTicks(3108)
+                            UpdatedDate = new DateTime(2025, 2, 10, 19, 47, 54, 470, DateTimeKind.Local).AddTicks(8738)
                         },
                         new
                         {
                             Id = 4,
                             Capacity = 0,
-                            CreatedDate = new DateTime(2025, 2, 7, 22, 29, 29, 680, DateTimeKind.Local).AddTicks(3119),
+                            CreatedDate = new DateTime(2025, 2, 10, 19, 47, 54, 470, DateTimeKind.Local).AddTicks(8745),
                             Description = "This is details of Villa 4",
-                            ImageUrl = "https://www.google.com/imgres?imgurl=https%3A%2F%2Fvillaimages.villaplus.com%2Fimages%2Fvillas%2Fphotos%2F8bb14538-2835-41ba-9c8c-e739fd8069a5_725.jpg&tbnid=H7579zpt_96g-M&vet=10CBYQxiAoCGoXChMI4J2n-Z2PiwMVAAAAAB0AAAAAEA8..i&imgrefurl=https%3A%2F%2Fwww.villaplus.com%2Fdestinations%2Fvillas-in-spain%2Fvillas-in-balearic-islands%2Fmenorca%2Fcalan-porter&docid=t6qGL44sGUmn4M&w=725&h=482&itg=1&q=villas&ved=0CBYQxiAoCGoXChMI4J2n-Z2PiwMVAAAAAB0AAAAAEA8",
+                            ImageUrl = "https://example.com/images/luxury-villa.jpg",
                             Name = "Luxury Villa",
                             Occupancy = 4,
-                            Price = 700.0,
+                            Price = 700m,
                             Sqft = 120,
-                            UpdatedDate = new DateTime(2025, 2, 7, 22, 29, 29, 680, DateTimeKind.Local).AddTicks(3116)
+                            UpdatedDate = new DateTime(2025, 2, 10, 19, 47, 54, 470, DateTimeKind.Local).AddTicks(8749)
                         });
                 });
 
@@ -182,7 +228,8 @@ namespace Resort.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Villa_Number"));
 
                     b.Property<string>("SpecialDetails")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<int>("VillaId")
                         .HasColumnType("int");
