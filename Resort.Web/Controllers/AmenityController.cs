@@ -39,10 +39,10 @@ namespace Resort.Web.Controllers
         [HttpPost]
         public IActionResult Create(Amenity amenity)
         {
-            if(amenity.VillaId == 0)
+            if (amenity.VillaId == 0)
             {
                 ModelState.AddModelError("VillaId", "Villa is required");
-                ViewBag.Villa = new SelectList(_unitOfWork.Villa.GetAll(),"Id","Name");
+                ViewBag.Villa = new SelectList(_unitOfWork.Villa.GetAll(), "Id", "Name");
                 TempData["error"] = "Amenity has not been created";
                 return View(amenity);
             }
@@ -54,6 +54,33 @@ namespace Resort.Web.Controllers
                 return RedirectToAction("Index");
             }
             TempData["error"] = "Amenity has not been created";
+            return View(amenity);
+        }
+
+        [HttpGet]
+        public IActionResult Update(int id)
+        {
+            var amenity = _unitOfWork.Amenity.Get(tmp => tmp.Id == id);
+            ViewBag.Villa = new SelectList(_unitOfWork.Villa.GetAll(), "Id", "Name");
+            return View(amenity);
+        }
+
+        [HttpPost]
+        public IActionResult Update(Amenity amenity)
+        {
+            if(amenity.VillaId == 0)
+            {
+                ModelState.AddModelError("VillaId", "Villa is required");
+                TempData["error"] = "Amenity has not been updated";
+                return View(amenity);
+            }
+            if (ModelState.IsValid)
+            {
+                _unitOfWork.Amenity.Update(amenity);
+                _unitOfWork.Save();
+                TempData["success"] = "Amenity updated successfully";
+                return RedirectToAction("Index");
+            }
             return View(amenity);
         }
     }
