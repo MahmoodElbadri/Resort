@@ -12,12 +12,13 @@ namespace Resort.Domain.Entities;
 public class Amenity
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; } 
     [Required]
     public string? Name { get; set; }
     public string? Description { get; set; }
     [ForeignKey("Villa")]
     public int VillaId { get; set; }
-    [ValidateNever]
+    [ValidateNever] 
     public Villa? Villa { get; set; }
 }

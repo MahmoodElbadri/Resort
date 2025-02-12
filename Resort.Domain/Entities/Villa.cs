@@ -12,9 +12,12 @@ namespace Resort.Domain.Entities
 {
     public class Villa
     {
-        public int Id { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; } 
         [Required]
         [MaxLength(30)]
+        [DisplayName("Villa Name")]
         public string? Name { get; set; }
         public int Capacity { get; set; }
         [DisplayName("Price per Night")]
