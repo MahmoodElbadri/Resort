@@ -1,0 +1,59 @@
+﻿@model Amenity
+@{
+    ViewData["Title"] = "Create New Amenity";
+}
+
+<div class="w-100 card border-0 p-4">
+    <div class="card-header bg-success bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="col-12 text-center text-white">Create a New Amenity</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body border p-4">
+        <div class="row pb-3">
+            <div class="card-body border p-4">
+                <form method="post" asp-controller="Amenity" asp-action="Create" class="row"
+                      enctype="multipart/form-data">
+                    <div class="p-3">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-floating py-2 col-12">
+                            <input asp-for="@Model.Name" class="form-control border shadow" />
+                            <label asp-for="@Model.Name" class="form-label sm-2"></label>
+                            <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating py-2 col-12">
+                            <textarea asp-for="@Model.Description" class="form-control border shadow"></textarea>
+                            <label asp-for="@Model.Description" class="form-label sm-2"></label>
+                            <span asp-validation-for="@Model.Description" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating py-2 col-12">
+                            <select asp-for="@Model.Villa.Id" asp-items="@ViewBag.Villa" class="form-control border shadow">
+                                <option selected disabled>--Select Villa--</option>
+                            </select>
+                            <label asp-for="@Model.Villa.Name" class="form-label sm-2"></label>
+                            <span asp-validation-for="@Model.Villa.Id" class="text-danger"></span>
+                        </div>
+                        <div class="row pt-2">
+                            <div class=" col-6 col-md-3">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="bi bi-check-circle"></i>  Create
+                                </button>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <a asp-controller="Amenity" asp-action="Index" class="btn btn-danger w-100">
+                                    <i class="bi bi-x-circle"></i>  Cancel
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

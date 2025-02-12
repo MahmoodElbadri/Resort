@@ -1,4 +1,4 @@
-﻿@model VillaNumberVM
+﻿    @model VillaNumberVM
 @{
     ViewData["Title"] = "Update Villa Number";
 }
@@ -23,7 +23,7 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-floating py-2 col-12">
                             @* <input asp-for="@Model.VillaId" class="form-control border shadow" /> *@
-                            <select asp-for="@Model.VillaNumber.VillaId" asp-items="@Model.VillaList" class="form-select border shadow">
+                            <select asp-for="@Model.VillaNumber.VillaId" asp-items="@Model.VillaList"   >
                                 <option disabled selected value="">--Select Villa--</option>
                             </select>
                             <label asp-for="@Model.VillaNumber.VillaId" class="form-label sm-2">Villa Id</label>
