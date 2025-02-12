@@ -1,22 +1,73 @@
-html {
-  font-size: 14px;
+/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+/* General Button Styling */
+.btn {
+    font-weight: 600;
+    transition: all 0.3s ease-in-out;
+    border-radius: 8px;
+    padding: 10px 15px;
 }
 
-@media (min-width: 768px) {
-  html {
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.btn:hover, .btn:focus {
+    background-color: #155a9a; /* Darker shade on hover */
+    border-color: #144f88;
+    transform: scale(1.05); /* Slight zoom effect */
+}
+
+/* Navbar Styling */
+.navbar {
+    background: #f8f9fa;
+    padding: 15px 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-nav .nav-link {
     font-size: 16px;
-  }
+    font-weight: 500;
+    padding: 10px 15px;
+    transition: all 0.3s ease-in-out;
+    border-radius: 8px;
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    .navbar-nav .nav-link:hover, .navbar-nav .nav-link:focus {
+        background: #007bff; /* Blue hover effect */
+        color: white !important;
+        transform: translateY(-2px); /* Lift effect */
+    }
+
+/* Dropdown Styling */
+.dropdown-menu {
+    background: #f8f9fa;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+.dropdown-item {
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: background 0.3s ease-in-out, transform 0.2s;
 }
 
-body {
-  margin-bottom: 60px;
+    .dropdown-item:hover {
+        background: #007bff;
+        color: white;
+        transform: translateX(5px);
+        border-radius: 5px;
+    }
+
+/* Footer Styling */
+.footer {
+    background: #f1f1f1;
+    padding: 15px;
+    text-align: center;
+    font-size: 14px;
 }
