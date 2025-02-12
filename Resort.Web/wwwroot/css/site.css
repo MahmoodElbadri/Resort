@@ -65,9 +65,25 @@ for details on configuring this project to bundle and minify static web assets. 
     }
 
 /* Footer Styling */
+/* Ensure the body and html take the full height */
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Make the main content area take up all available space */
+.container {
+    flex: 1;
+}
+
+/* Footer stays at the bottom */
 .footer {
     background: #f1f1f1;
     padding: 15px;
     text-align: center;
     font-size: 14px;
+    position: relative;
+    width: 100%;
 }
