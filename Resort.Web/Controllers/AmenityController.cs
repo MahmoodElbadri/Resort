@@ -83,5 +83,21 @@ namespace Resort.Web.Controllers
             }
             return View(amenity);
         }
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            var amenity = _unitOfWork.Amenity.Get(tmp => tmp.Id == id);
+            return View(amenity);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(Amenity amenity)
+        {
+            _unitOfWork.Amenity.Remove(amenity);
+            _unitOfWork.Save();
+            TempData["success"] = "Amenity deleted successfully";
+            return RedirectToAction("Index");
+        }
     }
 }
