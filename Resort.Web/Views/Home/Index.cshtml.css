@@ -1,0 +1,8 @@
+﻿label {
+    color: white;
+}
+
+
+form[style="background-color:black"] label {
+    color: white;
+}
