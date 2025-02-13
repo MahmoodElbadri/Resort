@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Resort.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using Resort.Infrastructure.Data;
 namespace Resort.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250213141234_IdentityAdded")]
+    partial class IdentityAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,6 +75,71 @@ namespace Resort.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -248,78 +316,6 @@ namespace Resort.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Resort.Domain.Entities.ApplicationUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
-                });
-
             modelBuilder.Entity("Resort.Domain.Entities.Villa", b =>
                 {
                     b.Property<int>("Id")
@@ -366,53 +362,53 @@ namespace Resort.Infrastructure.Migrations
                         {
                             Id = 1,
                             Capacity = 0,
-                            CreatedDate = new DateTime(2025, 2, 13, 16, 27, 29, 867, DateTimeKind.Local).AddTicks(7187),
+                            CreatedDate = new DateTime(2025, 2, 13, 16, 12, 31, 674, DateTimeKind.Local).AddTicks(2311),
                             Description = "This is details of Villa 1",
                             ImageUrl = "https://example.com/images/royal-villa.jpg",
                             Name = "Royal Villa",
                             Occupancy = 4,
                             Price = 200.0,
                             Sqft = 300,
-                            UpdatedDate = new DateTime(2025, 2, 13, 16, 27, 29, 867, DateTimeKind.Local).AddTicks(7268)
+                            UpdatedDate = new DateTime(2025, 2, 13, 16, 12, 31, 674, DateTimeKind.Local).AddTicks(2409)
                         },
                         new
                         {
                             Id = 2,
                             Capacity = 0,
-                            CreatedDate = new DateTime(2025, 2, 13, 16, 27, 29, 867, DateTimeKind.Local).AddTicks(7277),
+                            CreatedDate = new DateTime(2025, 2, 13, 16, 12, 31, 674, DateTimeKind.Local).AddTicks(2424),
                             Description = "This is details of Villa 2",
                             ImageUrl = "https://example.com/images/palace-villa.jpg",
                             Name = "Palace Villa",
                             Occupancy = 4,
                             Price = 150.0,
                             Sqft = 200,
-                            UpdatedDate = new DateTime(2025, 2, 13, 16, 27, 29, 867, DateTimeKind.Local).AddTicks(7281)
+                            UpdatedDate = new DateTime(2025, 2, 13, 16, 12, 31, 674, DateTimeKind.Local).AddTicks(2428)
                         },
                         new
                         {
                             Id = 3,
                             Capacity = 0,
-                            CreatedDate = new DateTime(2025, 2, 13, 16, 27, 29, 867, DateTimeKind.Local).AddTicks(7288),
+                            CreatedDate = new DateTime(2025, 2, 13, 16, 12, 31, 674, DateTimeKind.Local).AddTicks(2437),
                             Description = "This is details of Villa 3",
                             ImageUrl = "https://example.com/images/paradise-villa.jpg",
                             Name = "Paradise Villa",
                             Occupancy = 4,
                             Price = 600.0,
                             Sqft = 100,
-                            UpdatedDate = new DateTime(2025, 2, 13, 16, 27, 29, 867, DateTimeKind.Local).AddTicks(7292)
+                            UpdatedDate = new DateTime(2025, 2, 13, 16, 12, 31, 674, DateTimeKind.Local).AddTicks(2442)
                         },
                         new
                         {
                             Id = 4,
                             Capacity = 0,
-                            CreatedDate = new DateTime(2025, 2, 13, 16, 27, 29, 867, DateTimeKind.Local).AddTicks(7298),
+                            CreatedDate = new DateTime(2025, 2, 13, 16, 12, 31, 674, DateTimeKind.Local).AddTicks(2449),
                             Description = "This is details of Villa 4",
                             ImageUrl = "https://example.com/images/luxury-villa.jpg",
                             Name = "Luxury Villa",
                             Occupancy = 4,
                             Price = 700.0,
                             Sqft = 120,
-                            UpdatedDate = new DateTime(2025, 2, 13, 16, 27, 29, 867, DateTimeKind.Local).AddTicks(7302)
+                            UpdatedDate = new DateTime(2025, 2, 13, 16, 12, 31, 674, DateTimeKind.Local).AddTicks(2454)
                         });
                 });
 
@@ -480,7 +476,7 @@ namespace Resort.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Resort.Domain.Entities.ApplicationUser", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -489,7 +485,7 @@ namespace Resort.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Resort.Domain.Entities.ApplicationUser", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -504,7 +500,7 @@ namespace Resort.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Resort.Domain.Entities.ApplicationUser", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -513,7 +509,7 @@ namespace Resort.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Resort.Domain.Entities.ApplicationUser", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
