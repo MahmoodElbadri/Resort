@@ -1,8 +1,17 @@
 ﻿label {
-    color: white;
+    color: white !important;
 }
 
 
 form[style="background-color:black"] label {
     color: white;
+}
+
+#VillasList {
+    color: white !important;
+}
+
+#VillasList .card-text,
+#VillasList span {
+    color: white !important;
 }
