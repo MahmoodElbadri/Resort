@@ -19,45 +19,6 @@ namespace Resort.Infrastructure.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configure Villa entity
-            modelBuilder.Entity<Villa>(entity =>
-            {
-                entity.HasKey(v => v.Id); // Primary key
-                entity.Property(v => v.Name).IsRequired().HasMaxLength(30); // Name is required and has max length of 30
-                entity.Property(v => v.Price).HasColumnType("decimal(18,2)"); // Price as decimal for precision
-                entity.Property(v => v.Description).HasMaxLength(500); // Optional description with max length
-                entity.Property(v => v.ImageUrl).HasMaxLength(200); // Image URL with max length
-                entity.Property(v => v.CreatedDate).HasDefaultValueSql("GETDATE()"); // Default to current date
-                entity.Property(v => v.UpdatedDate).HasDefaultValueSql("GETDATE()"); // Default to current date
-            });
-
-            // Configure VillaNumber entity
-            modelBuilder.Entity<VillaNumber>(entity =>
-            {
-                entity.HasKey(vn => vn.Villa_Number); // Primary key
-                entity.Property(vn => vn.SpecialDetails).HasMaxLength(500); // Optional special details with max length
-
-                // Configure relationship with Villa
-                entity.HasOne(vn => vn.Villa)
-                      .WithMany()
-                      .HasForeignKey(vn => vn.VillaId)
-                      .OnDelete(DeleteBehavior.Cascade); // Cascade delete if Villa is deleted
-            });
-
-            // Configure Amenity entity
-            modelBuilder.Entity<Amenity>(entity =>
-            {
-                entity.HasKey(a => a.Id); // Primary key
-                entity.Property(a => a.Name).IsRequired().HasMaxLength(50); // Name is required and has max length
-                entity.Property(a => a.Description).HasMaxLength(500); // Optional description with max length
-
-                // Configure relationship with Villa
-                entity.HasOne(a => a.Villa)
-                      .WithMany()
-                      .HasForeignKey(a => a.VillaId)
-                      .OnDelete(DeleteBehavior.Cascade); // Cascade delete if Villa is deleted
-            });
-
             // Seed data for Villa
             modelBuilder.Entity<Villa>().HasData(
                 new Villa

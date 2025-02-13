@@ -12,8 +12,8 @@ using Resort.Infrastructure.Data;
 namespace Resort.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250210174755_Initial")]
-    partial class Initial
+    [Migration("20250213093307_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,13 +34,11 @@ namespace Resort.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("VillaId")
                         .HasColumnType("int");
@@ -132,17 +130,13 @@ namespace Resort.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageUrl")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -152,16 +146,14 @@ namespace Resort.Infrastructure.Migrations
                     b.Property<int>("Occupancy")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.Property<int>("Sqft")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -172,53 +164,53 @@ namespace Resort.Infrastructure.Migrations
                         {
                             Id = 1,
                             Capacity = 0,
-                            CreatedDate = new DateTime(2025, 2, 10, 19, 47, 54, 470, DateTimeKind.Local).AddTicks(8540),
+                            CreatedDate = new DateTime(2025, 2, 13, 11, 33, 5, 591, DateTimeKind.Local).AddTicks(8161),
                             Description = "This is details of Villa 1",
                             ImageUrl = "https://example.com/images/royal-villa.jpg",
                             Name = "Royal Villa",
                             Occupancy = 4,
-                            Price = 200m,
+                            Price = 200.0,
                             Sqft = 300,
-                            UpdatedDate = new DateTime(2025, 2, 10, 19, 47, 54, 470, DateTimeKind.Local).AddTicks(8711)
+                            UpdatedDate = new DateTime(2025, 2, 13, 11, 33, 5, 591, DateTimeKind.Local).AddTicks(8245)
                         },
                         new
                         {
                             Id = 2,
                             Capacity = 0,
-                            CreatedDate = new DateTime(2025, 2, 10, 19, 47, 54, 470, DateTimeKind.Local).AddTicks(8723),
+                            CreatedDate = new DateTime(2025, 2, 13, 11, 33, 5, 591, DateTimeKind.Local).AddTicks(8255),
                             Description = "This is details of Villa 2",
                             ImageUrl = "https://example.com/images/palace-villa.jpg",
                             Name = "Palace Villa",
                             Occupancy = 4,
-                            Price = 150m,
+                            Price = 150.0,
                             Sqft = 200,
-                            UpdatedDate = new DateTime(2025, 2, 10, 19, 47, 54, 470, DateTimeKind.Local).AddTicks(8728)
+                            UpdatedDate = new DateTime(2025, 2, 13, 11, 33, 5, 591, DateTimeKind.Local).AddTicks(8259)
                         },
                         new
                         {
                             Id = 3,
                             Capacity = 0,
-                            CreatedDate = new DateTime(2025, 2, 10, 19, 47, 54, 470, DateTimeKind.Local).AddTicks(8734),
+                            CreatedDate = new DateTime(2025, 2, 13, 11, 33, 5, 591, DateTimeKind.Local).AddTicks(8266),
                             Description = "This is details of Villa 3",
                             ImageUrl = "https://example.com/images/paradise-villa.jpg",
                             Name = "Paradise Villa",
                             Occupancy = 4,
-                            Price = 600m,
+                            Price = 600.0,
                             Sqft = 100,
-                            UpdatedDate = new DateTime(2025, 2, 10, 19, 47, 54, 470, DateTimeKind.Local).AddTicks(8738)
+                            UpdatedDate = new DateTime(2025, 2, 13, 11, 33, 5, 591, DateTimeKind.Local).AddTicks(8270)
                         },
                         new
                         {
                             Id = 4,
                             Capacity = 0,
-                            CreatedDate = new DateTime(2025, 2, 10, 19, 47, 54, 470, DateTimeKind.Local).AddTicks(8745),
+                            CreatedDate = new DateTime(2025, 2, 13, 11, 33, 5, 591, DateTimeKind.Local).AddTicks(8364),
                             Description = "This is details of Villa 4",
                             ImageUrl = "https://example.com/images/luxury-villa.jpg",
                             Name = "Luxury Villa",
                             Occupancy = 4,
-                            Price = 700m,
+                            Price = 700.0,
                             Sqft = 120,
-                            UpdatedDate = new DateTime(2025, 2, 10, 19, 47, 54, 470, DateTimeKind.Local).AddTicks(8749)
+                            UpdatedDate = new DateTime(2025, 2, 13, 11, 33, 5, 591, DateTimeKind.Local).AddTicks(8369)
                         });
                 });
 
@@ -231,8 +223,7 @@ namespace Resort.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Villa_Number"));
 
                     b.Property<string>("SpecialDetails")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("VillaId")
                         .HasColumnType("int");
@@ -279,7 +270,7 @@ namespace Resort.Infrastructure.Migrations
             modelBuilder.Entity("Resort.Domain.Entities.Amenity", b =>
                 {
                     b.HasOne("Resort.Domain.Entities.Villa", "Villa")
-                        .WithMany()
+                        .WithMany("VillaAmenity")
                         .HasForeignKey("VillaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -296,6 +287,11 @@ namespace Resort.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Villa");
+                });
+
+            modelBuilder.Entity("Resort.Domain.Entities.Villa", b =>
+                {
+                    b.Navigation("VillaAmenity");
                 });
 #pragma warning restore 612, 618
         }

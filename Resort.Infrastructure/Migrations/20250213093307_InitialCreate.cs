@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Resort.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,13 +21,13 @@ namespace Resort.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     Capacity = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Price = table.Column<double>(type: "float", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Occupancy = table.Column<int>(type: "int", nullable: false),
                     Sqft = table.Column<int>(type: "int", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()"),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()")
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -40,8 +40,8 @@ namespace Resort.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     VillaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -62,7 +62,7 @@ namespace Resort.Infrastructure.Migrations
                     Villa_Number = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     VillaId = table.Column<int>(type: "int", nullable: false),
-                    SpecialDetails = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true)
+                    SpecialDetails = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -80,10 +80,10 @@ namespace Resort.Infrastructure.Migrations
                 columns: new[] { "Id", "Capacity", "CreatedDate", "Description", "ImageUrl", "Name", "Occupancy", "Price", "Sqft", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { 1, 0, new DateTime(2025, 2, 10, 19, 47, 54, 470, DateTimeKind.Local).AddTicks(8540), "This is details of Villa 1", "https://example.com/images/royal-villa.jpg", "Royal Villa", 4, 200m, 300, new DateTime(2025, 2, 10, 19, 47, 54, 470, DateTimeKind.Local).AddTicks(8711) },
-                    { 2, 0, new DateTime(2025, 2, 10, 19, 47, 54, 470, DateTimeKind.Local).AddTicks(8723), "This is details of Villa 2", "https://example.com/images/palace-villa.jpg", "Palace Villa", 4, 150m, 200, new DateTime(2025, 2, 10, 19, 47, 54, 470, DateTimeKind.Local).AddTicks(8728) },
-                    { 3, 0, new DateTime(2025, 2, 10, 19, 47, 54, 470, DateTimeKind.Local).AddTicks(8734), "This is details of Villa 3", "https://example.com/images/paradise-villa.jpg", "Paradise Villa", 4, 600m, 100, new DateTime(2025, 2, 10, 19, 47, 54, 470, DateTimeKind.Local).AddTicks(8738) },
-                    { 4, 0, new DateTime(2025, 2, 10, 19, 47, 54, 470, DateTimeKind.Local).AddTicks(8745), "This is details of Villa 4", "https://example.com/images/luxury-villa.jpg", "Luxury Villa", 4, 700m, 120, new DateTime(2025, 2, 10, 19, 47, 54, 470, DateTimeKind.Local).AddTicks(8749) }
+                    { 1, 0, new DateTime(2025, 2, 13, 11, 33, 5, 591, DateTimeKind.Local).AddTicks(8161), "This is details of Villa 1", "https://example.com/images/royal-villa.jpg", "Royal Villa", 4, 200.0, 300, new DateTime(2025, 2, 13, 11, 33, 5, 591, DateTimeKind.Local).AddTicks(8245) },
+                    { 2, 0, new DateTime(2025, 2, 13, 11, 33, 5, 591, DateTimeKind.Local).AddTicks(8255), "This is details of Villa 2", "https://example.com/images/palace-villa.jpg", "Palace Villa", 4, 150.0, 200, new DateTime(2025, 2, 13, 11, 33, 5, 591, DateTimeKind.Local).AddTicks(8259) },
+                    { 3, 0, new DateTime(2025, 2, 13, 11, 33, 5, 591, DateTimeKind.Local).AddTicks(8266), "This is details of Villa 3", "https://example.com/images/paradise-villa.jpg", "Paradise Villa", 4, 600.0, 100, new DateTime(2025, 2, 13, 11, 33, 5, 591, DateTimeKind.Local).AddTicks(8270) },
+                    { 4, 0, new DateTime(2025, 2, 13, 11, 33, 5, 591, DateTimeKind.Local).AddTicks(8364), "This is details of Villa 4", "https://example.com/images/luxury-villa.jpg", "Luxury Villa", 4, 700.0, 120, new DateTime(2025, 2, 13, 11, 33, 5, 591, DateTimeKind.Local).AddTicks(8369) }
                 });
 
             migrationBuilder.InsertData(

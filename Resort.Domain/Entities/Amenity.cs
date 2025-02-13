@@ -17,8 +17,7 @@ public class Amenity
     [Required]
     public string? Name { get; set; }
     public string? Description { get; set; }
-    [ForeignKey("Villa")]
     public int VillaId { get; set; }
-    [ValidateNever] 
-    public Villa? Villa { get; set; }
+    [ForeignKey(nameof(VillaId))]
+    public Villa Villa { get; set; }
 }
