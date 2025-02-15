@@ -99,5 +99,28 @@ namespace Resort.Web.Controllers
             });
             return View(registerVM);
         }
+        
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginVM loginVM)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _signInManager.
+                    PasswordSignInAsync(loginVM.Email, loginVM.Password, loginVM.RememberMe, false);
+                if (result.Succeeded)
+                {
+                    if (!string.IsNullOrEmpty(loginVM.RedirectUrl))
+                    {
+                        return LocalRedirect(loginVM.RedirectUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+                ModelState.AddModelError("", "Login Failed. Check your credentials and try again.");
+            }
+            return View(loginVM);
+        }
     }
 }
