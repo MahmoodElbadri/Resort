@@ -4,7 +4,7 @@
     @if (_signInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <a class="nav-link" asp-action="Register" asp-controller="Account">Hello,
+            <a class="nav-link" href="#" >Hello,
                 @(_userManager.GetUserName(User))
             </a>
         </li>

@@ -122,5 +122,11 @@ namespace Resort.Web.Controllers
             }
             return View(loginVM);
         }
+
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
