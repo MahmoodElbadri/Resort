@@ -99,7 +99,7 @@ namespace Resort.Web.Controllers
             });
             return View(registerVM);
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginVM loginVM)
         {
@@ -127,6 +127,11 @@ namespace Resort.Web.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }
