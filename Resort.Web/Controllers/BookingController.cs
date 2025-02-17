@@ -4,6 +4,8 @@ using Resort.Application.Common.Interfaces;
 using Resort.Application.Utility;
 using Resort.Domain.Entities;
 using System.Security.Claims;
+using Stripe.Checkout;
+using Stripe;
 
 namespace Resort.Web.Controllers;
 
@@ -21,7 +23,7 @@ public class BookingController : Controller
     {
         var claimsIdentity = (ClaimsIdentity)User.Identity;
         var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-        ApplicationUser user = _unitOfWork.User.Get(tmp=>tmp.Id == userId);
+        ApplicationUser user = _unitOfWork.User.Get(tmp => tmp.Id == userId);
         var booking = new Booking
         {
             VillaId = villaId,
@@ -47,13 +49,44 @@ public class BookingController : Controller
         booking.TotalCost = villa.Price * booking.Nights;
         booking.Status = SD.StatusPending;
         booking.BookingDate = DateTime.Now;
+
         _unitOfWork.Booking.Add(booking);
         _unitOfWork.Save();
-        return RedirectToAction(nameof(BookingConfirmation), new {bookingId = booking.Id});
+
+        var domain = Request.Scheme + "://" + Request.Host.Value + "/";
+        var options = new SessionCreateOptions()
+        {
+
+            Mode = "payment",
+            SuccessUrl = domain + $"Booking/BookingConfirmation?bookingId={booking.Id}",
+            CancelUrl = domain + $"Booking/FinalizeBooking?villaId={villa.Id}" +
+            $"&checkInDate={booking.CheckInDate}&nights={booking.Nights}",
+        };
+
+        options.LineItems.Add(new SessionLineItemOptions
+        {
+            PriceData = new SessionLineItemPriceDataOptions
+            {
+                UnitAmount = (long)(booking.TotalCost * 100),
+                Currency = "usd",
+                ProductData = new SessionLineItemPriceDataProductDataOptions
+                {
+                    Name = villa.Name,
+                    Description = villa.Description,
+                },
+            },
+            Quantity = 1,
+        });
+
+        var service = new SessionService();
+        Session session = service.Create(options);
+        Response.Headers.Add("Location", session.Url);
+        service.Create(options);
+        return new StatusCodeResult(303);
     }
 
     [Authorize]
-    public  IActionResult BookingConfirmation(int bookingId)
+    public IActionResult BookingConfirmation(int bookingId)
     {
         return View(bookingId);
     }
