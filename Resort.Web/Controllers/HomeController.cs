@@ -62,7 +62,7 @@ public class HomeController : Controller
             Nights = nights,
             VillaList = villaList
         };
-        return View(homeVM);
+        return PartialView("_VillaList",homeVM);
     }
 
     public IActionResult Privacy()
