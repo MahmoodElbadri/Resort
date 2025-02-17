@@ -13,7 +13,7 @@ public class BookingController : Controller
         this._unitOfWork = unitOfWork;
     }
     public IActionResult FinalizeBooking(int villaId, DateOnly checkInDate,int nights)
-    {
+        {
         var booking = new Booking
         {
             VillaId = villaId,
@@ -22,6 +22,7 @@ public class BookingController : Controller
             Nights = nights,
             CheckOutDate = checkInDate.AddDays(nights)
         };
+        booking.TotalCost = booking.Villa.Price * nights;
         return View(booking);
     }
 }
