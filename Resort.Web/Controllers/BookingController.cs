@@ -92,6 +92,18 @@ public class BookingController : Controller
     [Authorize]
     public IActionResult BookingConfirmation(int bookingId)
     {
+        var bookingFromDb = _unitOfWork.Booking.Get(tmp => tmp.Id == bookingId, includeProperties: "Villa,User");
+        if(bookingFromDb.Status == SD.StatusPending)
+        {
+            var service = new SessionService();
+            Session session = service.Get(bookingFromDb.StripeSessionId);
+            if (session.PaymentStatus.ToLower() == "paid")
+            {
+                _unitOfWork.Booking.UpdateStatus(bookingFromDb.Id, SD.StatusApproved);
+                _unitOfWork.Booking.UpdateStripePaymentId(bookingFromDb.Id, session.Id, session.PaymentIntentId);
+                _unitOfWork.Save();
+            }
+        }
         return View(bookingId);
     }
 }
