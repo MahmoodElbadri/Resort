@@ -61,6 +61,7 @@ public class BookingController : Controller
             SuccessUrl = domain + $"Booking/BookingConfirmation?bookingId={booking.Id}",
             CancelUrl = domain + $"Booking/FinalizeBooking?villaId={villa.Id}" +
             $"&checkInDate={booking.CheckInDate}&nights={booking.Nights}",
+            LineItems = new List<SessionLineItemOptions>(),
         };
 
         options.LineItems.Add(new SessionLineItemOptions
@@ -80,8 +81,11 @@ public class BookingController : Controller
 
         var service = new SessionService();
         Session session = service.Create(options);
+
+        _unitOfWork.Booking.UpdateStripePaymentId(booking.Id, session.Id, session.PaymentIntentId);
+        _unitOfWork.Save();
+
         Response.Headers.Add("Location", session.Url);
-        service.Create(options);
         return new StatusCodeResult(303);
     }
 
