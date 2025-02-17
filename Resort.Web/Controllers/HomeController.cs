@@ -14,7 +14,7 @@ public class HomeController : Controller
     {
         this._unitOfWork = unitOfWork;
     }
-            
+
     public IActionResult Index()
     {
         var homeVm = new HomeVM
@@ -36,7 +36,7 @@ public class HomeController : Controller
     public IActionResult Index(HomeVM homeVM)
     {
         homeVM.VillaList = _unitOfWork.Villa.GetAll(includeProperties: "VillaAmenity");
-        foreach(var villa in homeVM.VillaList)
+        foreach (var villa in homeVM.VillaList)
         {
             if (villa.Id % 2 == 0)
             {
@@ -44,7 +44,26 @@ public class HomeController : Controller
             }
         }
         return View(homeVM);
+    }
+    
+    public IActionResult GetVillasByDate(int nights, DateOnly CheckInDate)
+    {
+        var villaList = _unitOfWork.Villa.GetAll(includeProperties: "VillaAmenity").ToList();
+        foreach (var villa in villaList)
+        {
+            if (villa.Id % 2 == 0)
+            {
+                villa.IsAvailable = false;
+            }
         }
+        HomeVM homeVM = new()
+        {
+            CheckInDate = CheckInDate,
+            Nights = nights,
+            VillaList = villaList
+        };
+        return View(homeVM);
+    }
 
     public IActionResult Privacy()
     {
