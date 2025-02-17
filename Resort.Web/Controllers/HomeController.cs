@@ -48,6 +48,7 @@ public class HomeController : Controller
     
     public IActionResult GetVillasByDate(int nights, DateOnly CheckInDate)
     {
+        Thread.Sleep(1500);
         var villaList = _unitOfWork.Villa.GetAll(includeProperties: "VillaAmenity").ToList();
         foreach (var villa in villaList)
         {
