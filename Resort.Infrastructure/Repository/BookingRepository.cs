@@ -1,4 +1,5 @@
 ﻿using Resort.Application.Common.Interfaces;
+using Resort.Application.Utility;
 using Resort.Domain.Entities;
 using Resort.Infrastructure.Data;
 using System;
@@ -21,6 +22,41 @@ namespace Resort.Infrastructure.Repository
         public void Update(Booking entity)
         {
             _db.Update(entity);
+        }
+
+        public void UpdateStatus(int bookingId, string bookingStatus)
+        {
+            var bookingFromDb = _db.Bookings.FirstOrDefault(tmp => tmp.Id == bookingId);
+            if (bookingFromDb != null)
+            {
+                bookingFromDb.Status = bookingStatus;
+                if (bookingStatus == SD.StatusCheckedIn)
+                {
+                    bookingFromDb.ActualCheckInDate = DateTime.Now;
+                }
+                if (bookingStatus == SD.StatusCompleted)
+                {
+                    bookingFromDb.ActualCheckOutDate = DateTime.Now;
+                }
+            }
+        }
+
+        public void UpdateStripePaymentId(int bookingId, string sessionId, string paymentIntendId)
+        {
+            var bookingFromDb = _db.Bookings.FirstOrDefault(tmp => tmp.Id == bookingId);
+            if (bookingFromDb != null)
+            {
+                if (!string.IsNullOrEmpty(sessionId))
+                {
+                    bookingFromDb.StripeSessionId = sessionId;
+                }
+                if (!string.IsNullOrEmpty(paymentIntendId))
+                {
+                    bookingFromDb.StripePaymentIntentId = paymentIntendId;
+                    bookingFromDb.IsPaymentSuccessful = true;
+                    bookingFromDb.PaymentDate = DateTime.Now;
+                }
+            }
         }
     }
 }
