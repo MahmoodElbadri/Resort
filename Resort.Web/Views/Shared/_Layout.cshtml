@@ -30,17 +30,20 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item dropdown text-dark">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Content Management
-                            </a>
+                        <!-- Example split danger button -->
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-white">Content Mangement</button>
+                            <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="visually-hidden">Toggle Dropdown</span>
+                            </button>
                             <ul class="dropdown-menu">
-                                <li><a class="nav-link dropdown-item" asp-area="" asp-controller="Villa" asp-action="Index">Villa</a></li>
-                                <li><a class="nav-link dropdown-item" asp-area="" asp-controller="VillaNumber" asp-action="Index">Villa Number</a></li>
-                                <li><a class="nav-link dropdown-item" asp-area="" asp-controller="Amenity" asp-action="Index">Amenities</a></li>
-                                @* <li><a class="" href="#">Something else here</a></li> *@
+                                <li><a class="dropdown-item" asp-controller="Villa" asp-action="Index">Villa</a></li>
+                                <li><a class="dropdown-item" asp-controller="VillaNumber" asp-action="Index">Villa Number</a></li>
+                                <li><a class="dropdown-item" asp-controller="Amenity" asp-action="Index">Amenity</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Empty link</a></li>
                             </ul>
-                        </li>
+                        </div>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

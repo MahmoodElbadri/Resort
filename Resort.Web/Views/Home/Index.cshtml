@@ -49,7 +49,7 @@
 
             <div class="col-4 col-md-2 pt-4 pr-2">
                 <div class="form-group">
-                    <button type="button" class="btn btn-success btn-block">
+                    <button type="submit" class="btn btn-success btn-block">
                         <i class="bi bi-search"></i>  &nbsp; Check Availability
                     </button>
 
@@ -74,7 +74,7 @@
                                 <div class="d-flex justify-content-between">
                                     <p class="card-title text-warning" style="font-size:xx-large">@villa.Name</p>
                                     <div class="pt-2">
-                                        <button type="button" class="btn btn-sm btn-outline-success"  data-bs-toggle="modal" data-bs-target='#exampleModal-@(villa.Id)'>
+                                        <button type="button" class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target='#exampleModal-@(villa.Id)'>
                                             Details
                                         </button>
                                     </div>
@@ -87,9 +87,21 @@
                             <div class="col-12">
                                 <div class="row pb-3 pt-2">
                                     <div class="col-4">
-                                        <a class="btn btn-success form-control btn-block">
-                                            Book
-                                        </a>
+                                        @if (Model.CheckInDate >= DateOnly.FromDateTime(DateTime.Now))
+                                        {
+                                            if (villa.IsAvailable)
+                                            {
+                                                <a class="btn btn-success form-control btn-block">
+                                                    Book
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a class="btn btn-outline-danger disabled form-control btn-block">
+                                                    Not Available
+                                                </a>
+                                            }
+                                        }
                                     </div>
                                     <div class="col-4">
                                         <span class="">Max Occupancy : @villa.Occupancy adults </span><br />
@@ -119,7 +131,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body m-0">
-                                    <partial name="_VillaDetail"  model="villa" ></partial>
+                                    <partial name="_VillaDetail" model="villa"></partial>
                                 </div>
 
                                 <div class="modal-footer">

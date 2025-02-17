@@ -43,6 +43,8 @@ public class Villa
 
     [NotMapped]
     public IFormFile? Image { get; set; }
+    [NotMapped]
+    public bool IsAvailable { get; set; } = true;
 
     [ValidateNever]
     public ICollection<Amenity> VillaAmenity { get; set; } // Ensure proper type
