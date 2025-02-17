@@ -23,6 +23,10 @@ builder.Services.ConfigureApplicationCookie(option =>
     option.LogoutPath = "/Account/Logout";
     option.AccessDeniedPath = "/Account/AccessDenied";
 });
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.Password.RequiredLength = 6;
+});
 var app = builder.Build();
 //cchecking pushing
 // Configure the HTTP request pipeline.
