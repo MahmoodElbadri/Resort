@@ -7,7 +7,7 @@ using Resort.Domain.Entities;
 
 namespace Resort.Web.Controllers;
 
-[Authorize(Roles = SD.Role_Admin)]
+[Authorize(Roles = SD.Role_Customer)]
 public class AmenityController : Controller
 {
     private readonly IUnitOfWork _unitOfWork;

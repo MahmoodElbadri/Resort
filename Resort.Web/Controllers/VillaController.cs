@@ -3,9 +3,12 @@ using Resort.Infrastructure.Data;
 using Resort.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Resort.Application.Common.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Resort.Application.Utility;
 
 namespace Resort.Web.Controllers;
 
+[Authorize(Roles = SD.Role_Customer)]
 public class VillaController : Controller
 {
     private readonly IUnitOfWork _unitOfWork;

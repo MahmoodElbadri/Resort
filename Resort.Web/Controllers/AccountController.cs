@@ -27,17 +27,17 @@ public class AccountController : Controller
         this._roleManager = roleManager;
     }
 
-    public IActionResult Login(string returnUrl = null)
+    public IActionResult Login(string? ReturnUrl)
     {
-        returnUrl ??= Url.Content("~/");
+        ReturnUrl ??= Url.Content("~/");
         LoginVM loginVm = new LoginVM
         {
-            RedirectUrl = returnUrl
+            RedirectUrl = ReturnUrl
         };
-        return View();
+        return View(loginVm);
     }
 
-    public IActionResult Register()
+    public IActionResult Register(string? returnUrl)
     {
         if (!_roleManager.RoleExistsAsync(SD.Role_Admin).GetAwaiter().GetResult())
         {
@@ -51,7 +51,8 @@ public class AccountController : Controller
             {
                 Text = i.Name,
                 Value = i.Name
-            })
+            }),
+            RedirectUrl = returnUrl
         };
         return View(registerVM);
     }
