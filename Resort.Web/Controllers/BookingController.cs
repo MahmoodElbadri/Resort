@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Resort.Application.Common.Interfaces;
+using Resort.Application.Utility;
 using Resort.Domain.Entities;
 using System.Security.Claims;
 
@@ -36,5 +37,25 @@ public class BookingController : Controller
         };
         booking.TotalCost = booking.Villa.Price * nights;
         return View(booking);
+    }
+
+    [HttpPost]
+    [Authorize]
+    public IActionResult FinalizeBooking(Booking booking)
+    {
+        var villa = _unitOfWork.Villa.Get(tmp => tmp.Id == booking.VillaId);
+        
+        booking.TotalCost = booking.Villa.Price * booking.Nights;
+        booking.Status = SD.StatusPending;
+        booking.BookingDate = DateTime.Now;
+        _unitOfWork.Booking.Add(booking);
+        _unitOfWork.Save();
+        return RedirectToAction(nameof(BookingConfirmation), new {bookingId = booking.Id});
+    }
+
+    [Authorize]
+    public  IActionResult BookingConfirmation(int bookingId)
+    {
+        return View(bookingId);
     }
 }
