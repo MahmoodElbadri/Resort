@@ -112,4 +112,26 @@ public class BookingController : Controller
         }
         return View(bookingId);
     }
+
+    #region APICALLS
+
+    [HttpGet]
+    [Authorize]
+    public IActionResult GetAll()
+    {
+        IEnumerable<Booking> bookings;
+        if (User.IsInRole(SD.Role_Admin))
+        {
+            bookings = _unitOfWork.Booking.GetAll(includeProperties: "Villa,User");
+        }
+        else
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            bookings = _unitOfWork.Booking.GetAll(u => u.UserId == userId, includeProperties: "Villa,User");
+        }
+        return Json(new {data = bookings});
+    }
+
+    #endregion
 }
