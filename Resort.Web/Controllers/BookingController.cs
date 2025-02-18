@@ -18,6 +18,7 @@ public class BookingController : Controller
         this._unitOfWork = unitOfWork;
     }
 
+    [Authorize]
     public IActionResult Index()
     {
         return View();
@@ -62,7 +63,6 @@ public class BookingController : Controller
         var domain = Request.Scheme + "://" + Request.Host.Value + "/";
         var options = new SessionCreateOptions()
         {
-
             Mode = "payment",
             SuccessUrl = domain + $"Booking/BookingConfirmation?bookingId={booking.Id}",
             CancelUrl = domain + $"Booking/FinalizeBooking?villaId={villa.Id}" +
@@ -80,6 +80,10 @@ public class BookingController : Controller
                 {
                     Name = villa.Name,
                     Description = villa.Description,
+                    Images = new List<string>
+                    {
+                        "https://image.jimcdn.com/app/cms/image/transf/dimension=930x10000:format=jpg/path/sb47433d1bebe9902/image/i3bee918e12c0b83d/version/1552606045/image.jpg"
+                    },
                 },
             },
             Quantity = 1,
@@ -99,7 +103,7 @@ public class BookingController : Controller
     public IActionResult BookingConfirmation(int bookingId)
     {
         var bookingFromDb = _unitOfWork.Booking.Get(tmp => tmp.Id == bookingId, includeProperties: "Villa,User");
-        if(bookingFromDb.Status == SD.StatusPending)
+        if (bookingFromDb.Status == SD.StatusPending)
         {
             var service = new SessionService();
             Session session = service.Get(bookingFromDb.StripeSessionId);
@@ -113,7 +117,7 @@ public class BookingController : Controller
         return View(bookingId);
     }
 
-    #region APICALLS
+    #region API_CALLS
 
     [HttpGet]
     [Authorize]
@@ -130,7 +134,7 @@ public class BookingController : Controller
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
             bookings = _unitOfWork.Booking.GetAll(u => u.UserId == userId, includeProperties: "Villa,User");
         }
-        return Json(new {data = bookings});
+        return Json(new { data = bookings });
     }
 
     #endregion
