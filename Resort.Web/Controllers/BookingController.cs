@@ -100,6 +100,13 @@ public class BookingController : Controller
     }
 
     [Authorize]
+    public IActionResult BookingDetails(int bookingId)
+    {
+        var bookingFromDb = _unitOfWork.Booking.Get(tmp=>tmp.Id == bookingId, includeProperties: "Villa,User");
+        return View(bookingFromDb);
+    }
+
+    [Authorize]
     public IActionResult BookingConfirmation(int bookingId)
     {
         var bookingFromDb = _unitOfWork.Booking.Get(tmp => tmp.Id == bookingId, includeProperties: "Villa,User");
