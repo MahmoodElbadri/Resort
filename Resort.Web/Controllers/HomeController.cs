@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Resort.Application.Common.Interfaces;
 using Resort.Web.Models;
 using Resort.Web.ViewModels;
+using Resort.Application.Utility;
 
 namespace Resort.Web.Controllers;
 
@@ -37,12 +38,14 @@ public class HomeController : Controller
     {
         Thread.Sleep(1500);
         var villaList = _unitOfWork.Villa.GetAll(includeProperties: "VillaAmenity").ToList();
+        var villaNumbersList = _unitOfWork.VillaNumber.GetAll().ToList();
+        var bookedVillas = _unitOfWork.Booking.GetAll
+            (tmp=>tmp.Status ==  SD.StatusApproved || tmp.Status == SD.StatusCheckedIn).ToList();
         foreach (var villa in villaList)
         {
-            if (villa.Id % 2 == 0)
-            {
-                villa.IsAvailable = false;
-            }
+            int roomAvailable =
+                SD.VillaRoomsAvailable_Count(villa.Id, villaNumbersList, CheckInDate, nights, bookedVillas);
+            villa.IsAvailable = roomAvailable > 0 ? true : false;
         }
         HomeVM homeVM = new()
         {
@@ -50,7 +53,7 @@ public class HomeController : Controller
             Nights = nights,
             VillaList = villaList
         };
-        return PartialView("_VillaList",homeVM);
+        return PartialView("_VillaList", homeVM);
     }
 
     public IActionResult Privacy()
