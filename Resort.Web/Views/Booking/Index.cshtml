@@ -1,6 +1,38 @@
 ﻿@{
     ViewData["Title"] = "Bookings";
 }
+
+@{
+    var status = Context.Request.Query["status"];
+
+    var approved = "";
+    var pending = "";
+    var checkedIn = "";
+    var completed = "";
+    var cancelled = "";
+
+    switch (status)
+    {
+        case SD.StatusApproved:
+            approved = "text-white bg-primary";
+            break;
+        case SD.StatusPending:
+            pending = "text-white bg-primary ";
+            break;
+        case SD.StatusCheckedIn:
+            checkedIn = "text-white bg-primary ";
+            break;
+        case SD.StatusCompleted:
+            completed = "text-white bg-primary ";
+            break;
+        case SD.StatusCancelled:
+            cancelled = "text-white bg-primary";
+            break;
+        default:
+            break;
+    }
+}
+
 <div class="w-100 card border-0 p-4">
     <div class="card-header bg-success bg-gradient ml-0 py-3">
         <div class="row">

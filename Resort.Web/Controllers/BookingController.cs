@@ -121,7 +121,7 @@ public class BookingController : Controller
 
     [HttpGet]
     [Authorize]
-    public IActionResult GetAll()
+    public IActionResult GetAll(string status)
     {
         IEnumerable<Booking> bookings;
         if (User.IsInRole(SD.Role_Admin))
@@ -133,6 +133,10 @@ public class BookingController : Controller
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
             bookings = _unitOfWork.Booking.GetAll(u => u.UserId == userId, includeProperties: "Villa,User");
+        }   
+        if (!string.IsNullOrEmpty(status))
+        {
+            bookings = bookings.Where(tmp=>string.Equals(tmp.Status,status,StringComparison.OrdinalIgnoreCase));
         }
         return Json(new { data = bookings });
     }

@@ -2,14 +2,16 @@
 
 
 $(document).ready(function () {
-    loadDataTable();
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('status');
+    loadDataTable(status);
 });
 
 
-function loadDataTable() {
+function loadDataTable(status) {
     $('#tblBookings').DataTable({
         "ajax": {
-            "url": "/booking/GetAll",
+            "url": "/booking/GetAll?status=" + encodeURIComponent(status || ''),
             "type": "GET",
             "datatype": "json"
         },
