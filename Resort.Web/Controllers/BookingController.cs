@@ -132,7 +132,7 @@ public class BookingController : Controller
     }
     [Authorize(Roles = SD.Role_Admin)]
     [HttpPost]
-    public IActionResult Cancel(Booking booking)
+    public IActionResult CancelBooking  (Booking booking)
     {
         _unitOfWork.Booking.UpdateStatus(booking.Id, SD.StatusCancelled, 0);
         _unitOfWork.Save();

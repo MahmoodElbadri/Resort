@@ -42,7 +42,9 @@
                         @if (Model.Status == SD.StatusApproved || Model.Status == SD.StatusPending
                         && User.IsInRole(SD.Role_Admin))
                         {
-                            <button type="submit" class="btn btn-sm btn-outline-danger form-control my-1"><i class="bi bi-x-circle"></i> &nbsp; Cancel Booking</button>
+                            <button type="submit" asp-controller="Booking" asp-action="CancelBooking" class="btn btn-sm btn-outline-danger form-control my-1">
+                                <i class="bi bi-x-circle"></i> &nbsp; Cancel Booking
+                            </button>
                         }
                     </div>
                 </div>
@@ -97,9 +99,9 @@
                         <label asp-for="ActualCheckOutDate" class="text-warning">Actual Check-out Date</label>
                         <input asp-for="ActualCheckOutDate" disabled class="form-control" />
                     </div>
-                    <div class="form-group pt-2 col-6">
-                        @if (User.IsInRole(SD.Role_Admin) && Model.Status == SD.StatusApproved)
-                        {
+                    @if (User.IsInRole(SD.Role_Admin) && Model.Status == SD.StatusApproved)
+                    {
+                        <div class="form-group pt-2 col-6">
                             <label asp-for="VillaNumber" class="text-warning"></label>
                             <select asp-for="VillaNumber" class="form-control">
                                 <option disabled value="0">--Select Villa--</option>
@@ -108,9 +110,19 @@
                                     <option value="@item.Villa_Number">@item.Villa_Number</option>
                                 }
                             </select>
+                            @* <input asp-for="VillaNumber" disabled class="form-control" /> *@
+                        </div>
+                    }
+                    else{
+                        @if(Model.Status == SD.StatusCheckedIn || Model.Status == SD.StatusCompleted){
+                            <input type="hidden" asp-for="VillaNumber" />
+                            <div class="form-group pt-2 col-6">
+                                <label asp-for="VillaNumber" class="text-warning"></label>
+
+                                <input asp-for="VillaNumber" disabled class="form-control" />
+                            </div>
                         }
-                        @* <input asp-for="VillaNumber" disabled class="form-control" /> *@
-                    </div>
+                    }
                     @if (User.IsInRole(SD.Role_Admin))
                     {
                         <div class="form-group pt-2 col-6">
@@ -128,19 +140,26 @@
                     }
 
                 </div>
+
+                <div class="form-group pt-2 col-6">
+                    <label asp-for="Status" class="text-warning"></label>
+                    <input asp-for="Status" disabled class="form-control" />
+                </div>
                 <div class="form-group pt-2 pt-md-4">
                     @if (User.IsInRole(SD.Role_Admin))
                     {
                         @if (Model.Status == SD.StatusApproved)
                         {
-                            <button type="submit" class="btn btn-warning form-control my-1">
+                            <button type="submit" asp-controller="Booking" asp-action="CheckIn"
+                                    class="btn btn-warning form-control my-1">
                                 <i class="bi bi-check2-square"></i>
                                 &nbsp; Check In
                             </button>
                         }
                         @if (Model.Status == SD.StatusCheckedIn)
                         {
-                            <button type="submit" class="btn btn-success form-control my-1">
+                            <button type="submit" asp-controller="Booking" asp-action="CheckOut"
+                                    class="btn btn-success form-control my-1">
                                 <i class="bi bi-clipboard2-check"></i>
                                 &nbsp; Check Out / Complete Booking
                             </button>
