@@ -30,7 +30,7 @@ function loadDataTable(status) {
                     return `<div class="w-75 btn-group" role="group">
                             <a href="/booking/bookingDetails?bookingId=${data}" 
                             class="btn btn-outline-warning mx-2">
-                                <i class="bi bi-pencil-square"></i> Edit
+                                <i class="bi bi-pencil-square"></i> Details
                             </a>
                             <form action="/booking/Delete/${data}" method="post">
                                 <button type="submit" class="btn btn-danger mx-2">

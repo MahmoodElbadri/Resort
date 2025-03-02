@@ -116,7 +116,7 @@ public class BookingController : Controller
             Session session = service.Get(bookingFromDb.StripeSessionId);
             if (session.PaymentStatus.ToLower() == "paid")
             {
-                _unitOfWork.Booking.UpdateStatus(bookingFromDb.Id, SD.StatusApproved);
+                _unitOfWork.Booking.UpdateStatus(bookingFromDb.Id, SD.StatusApproved,0);
                 _unitOfWork.Booking.UpdateStripePaymentId(bookingFromDb.Id, session.Id, session.PaymentIntentId);
                 _unitOfWork.Save();
             }
