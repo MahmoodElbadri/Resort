@@ -28,13 +28,19 @@
         </div>
         <div class="col-12 col-lg-6 p-4 2 mt-4 mt-md-0" style="border-left:1px solid #aaa">
             <form method="post">
-
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="VillaId" />
+                <input type="hidden" asp-for="UserId" />
+                <input type="hidden" asp-for="CheckInDate" />
+                <input type="hidden" asp-for="CheckOutDate" />
+                <input type="hidden" asp-for="Nights" />
                 <div class="row pt-1 mb-3 " style="border-radius:20px; ">
                     <div class="col-6">
                         <h3 class="text-success">Enter Booking Details</h3>
                     </div>
                     <div class="col-6">
-                        @if (Model.Status == SD.StatusApproved || Model.Status == SD.StatusPending && User.IsInRole(SD.Role_Admin))
+                        @if (Model.Status == SD.StatusApproved || Model.Status == SD.StatusPending
+                        && User.IsInRole(SD.Role_Admin))
                         {
                             <button type="submit" class="btn btn-sm btn-outline-danger form-control my-1"><i class="bi bi-x-circle"></i> &nbsp; Cancel Booking</button>
                         }
