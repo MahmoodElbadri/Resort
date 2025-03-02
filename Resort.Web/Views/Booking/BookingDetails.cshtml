@@ -91,6 +91,20 @@
                         <label asp-for="ActualCheckOutDate" class="text-warning">Actual Check-out Date</label>
                         <input asp-for="ActualCheckOutDate" disabled class="form-control" />
                     </div>
+                    <div class="form-group pt-2 col-6">
+                        @if (User.IsInRole(SD.Role_Admin) && Model.Status == SD.StatusApproved)
+                        {
+                            <label asp-for="VillaNumber" class="text-warning"></label>
+                            <select asp-for="VillaNumber" class="form-control">
+                                <option disabled value="0">--Select Villa--</option>
+                                @foreach (var item in Model.VillaNumbers)
+                                {
+                                    <option value="@item.Villa_Number">@item.Villa_Number</option>
+                                }
+                            </select>
+                        }
+                        @* <input asp-for="VillaNumber" disabled class="form-control" /> *@
+                    </div>
                     @if (User.IsInRole(SD.Role_Admin))
                     {
                         <div class="form-group pt-2 col-6">
@@ -111,18 +125,20 @@
                 <div class="form-group pt-2 pt-md-4">
                     @if (User.IsInRole(SD.Role_Admin))
                     {
-                        @if(Model.Status == SD.StatusApproved){
-                        <button type="submit" class="btn btn-warning form-control my-1">
-                            <i class="bi bi-check2-square"></i>
-                            &nbsp; Check In
-                        </button>
-                    }
-                    @if(Model.Status == SD.StatusCheckedIn){
-                        <button type="submit" class="btn btn-success form-control my-1">
-                            <i class="bi bi-clipboard2-check"></i>
-                            &nbsp; Check Out / Complete Booking
-                        </button>
-                    }
+                        @if (Model.Status == SD.StatusApproved)
+                        {
+                            <button type="submit" class="btn btn-warning form-control my-1">
+                                <i class="bi bi-check2-square"></i>
+                                &nbsp; Check In
+                            </button>
+                        }
+                        @if (Model.Status == SD.StatusCheckedIn)
+                        {
+                            <button type="submit" class="btn btn-success form-control my-1">
+                                <i class="bi bi-clipboard2-check"></i>
+                                &nbsp; Check Out / Complete Booking
+                            </button>
+                        }
                     }
                 </div>
             </form>
