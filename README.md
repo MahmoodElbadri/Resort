@@ -69,6 +69,15 @@ The checkout process is fully integrated with **Stripe** for handling secure pay
 ```
 
 ## 📷 Screenshots  
+### 🏠 Home Page  
+![Forbidden Page](https://ibb.co/W4NWcchN)  
+
+### 📅 Booking Page  
+![Booking Page](https://ibb.co/PzYM0MPQ)  
+
+### 📅 Home Page  
+![Home Page](https://ibb.co/FLyBMnGd)  
+
 https://ibb.co/9mbDSfBD
 https://ibb.co/W4NWcchN
 🚧 *Coming soon...* 🚧  
