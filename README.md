@@ -3,7 +3,9 @@
 
 # 🏨 Resort Booking System – Clean Architecture  
 
-Welcome to the **Resort Booking System**! 🏝️ This project is a web-based application built using **.NET 8**, following the **Clean Architecture** principles. It ensures separation of concerns, scalability, and maintainability. It also features **Stripe Payment Integration** 💳 for secure transactions.  
+Welcome to the **Resort Booking System**! 🏝️ This project is a web-based application built using **.NET 8**,
+following the **Clean Architecture** principles. It ensures separation of concerns, scalability, and maintainability.
+It also features **Stripe Payment Integration** 💳 for secure transactions.  
 
 ## 🚀 Features  
 - 🏠 **Villa Management** – Add, update, and remove villas.  
