@@ -102,7 +102,7 @@ public class BookingController : Controller
     [Authorize]
     public IActionResult BookingDetails(int bookingId)
     {
-        var bookingFromDb = _unitOfWork.Booking.Get(tmp=>tmp.Id == bookingId, includeProperties: "Villa,User");
+        var bookingFromDb = _unitOfWork.Booking.Get(tmp => tmp.Id == bookingId, includeProperties: "Villa,User");
         if (bookingFromDb.VillaNumber == 0 && bookingFromDb.Status == SD.StatusApproved)
         {
             var availableVillaNumber = AssignAvailableVillaNumberByVilla(bookingFromDb.VillaId);
@@ -116,9 +116,27 @@ public class BookingController : Controller
     [HttpPost]
     public IActionResult CheckIn(Booking booking)
     {
-_unitOfWork.Booking.UpdateStatus(booking.Id, SD.StatusCheckedIn, booking.VillaNumber);
+        _unitOfWork.Booking.UpdateStatus(booking.Id, SD.StatusCheckedIn, booking.VillaNumber);
         _unitOfWork.Save();
         TempData["success"] = "Booking updated successfully";
+        return RedirectToAction(nameof(BookingDetails), new { bookingId = booking.Id });
+    }
+    [Authorize(Roles = SD.Role_Admin)]
+    [HttpPost]
+    public IActionResult CheckOut(Booking booking)
+    {
+        _unitOfWork.Booking.UpdateStatus(booking.Id, SD.StatusCompleted, booking.VillaNumber);
+        _unitOfWork.Save();
+        TempData["success"] = "Booking Completed successfully";
+        return RedirectToAction(nameof(BookingDetails), new { bookingId = booking.Id });
+    }
+    [Authorize(Roles = SD.Role_Admin)]
+    [HttpPost]
+    public IActionResult Cancel(Booking booking)
+    {
+        _unitOfWork.Booking.UpdateStatus(booking.Id, SD.StatusCancelled, 0);
+        _unitOfWork.Save();
+        TempData["success"] = "Booking Cancelled successfully";
         return RedirectToAction(nameof(BookingDetails), new { bookingId = booking.Id });
     }
 
@@ -132,7 +150,7 @@ _unitOfWork.Booking.UpdateStatus(booking.Id, SD.StatusCheckedIn, booking.VillaNu
             Session session = service.Get(bookingFromDb.StripeSessionId);
             if (session.PaymentStatus.ToLower() == "paid")
             {
-                _unitOfWork.Booking.UpdateStatus(bookingFromDb.Id, SD.StatusApproved,0);
+                _unitOfWork.Booking.UpdateStatus(bookingFromDb.Id, SD.StatusApproved, 0);
                 _unitOfWork.Booking.UpdateStripePaymentId(bookingFromDb.Id, session.Id, session.PaymentIntentId);
                 _unitOfWork.Save();
             }
@@ -172,14 +190,13 @@ _unitOfWork.Booking.UpdateStatus(booking.Id, SD.StatusCheckedIn, booking.VillaNu
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
             bookings = _unitOfWork.Booking.GetAll(u => u.UserId == userId, includeProperties: "Villa,User");
-        }   
+        }
         if (!string.IsNullOrEmpty(status))
         {
-            bookings = bookings.Where(tmp=>string.Equals(tmp.Status,status,StringComparison.OrdinalIgnoreCase));
+            bookings = bookings.Where(tmp => string.Equals(tmp.Status, status, StringComparison.OrdinalIgnoreCase));
         }
         return Json(new { data = bookings });
     }
 
     #endregion
 }
-                    
