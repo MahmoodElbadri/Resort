@@ -37,7 +37,7 @@ The project follows **Clean Architecture** with the following structure:
 1. Clone the repository 📂  
    ```bash
    git clone https://github.com/MahmoodElbadri/Resort.git
-   cd resort-booking
+   cd Resort
    ```
 
 2. Install dependencies 🏗  
