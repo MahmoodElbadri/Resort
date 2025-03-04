@@ -1,15 +1,14 @@
 ﻿@model HomeVM
-<div class="row px-lg-5 m-lg-4 m-sm-0 px-sm-0" style="--bs-gutter-x:0">
+<div class="row px-lg-5 m-lg-4 m-sm-0 px-sm-0" style="--bs-gutter-x:0; background-color: black; color: lightgray;">
     @foreach (var villa in Model.VillaList)
     {
         <div class="p-4 col-md-12 col-lg-6">
-            <div class="row" style="border-radius:5px; border: 1px solid #aaa">
+            <div class="row" style="border-radius:5px; border: 1px solid #aaa; background-color: black; color: lightgray;">
                 <div class="col-4 p-2">
                     <img class="d-block w-100" style="border-radius:5px;"
                          src="@villa.ImageUrl"
                          onerror="this.onerror=null; this.src='https://placehold.co/600x400';"
                          alt="Villa Image">
-
                 </div>
                 <div class="col-8">
                     <div class="d-flex justify-content-between">
@@ -22,7 +21,6 @@
                     </div>
                     <p class="card-text">
                         @Html.Raw(villa.Description)
-                        @* @villa.Description *@
                     </p>
                 </div>
                 <div class="col-12">
@@ -34,7 +32,7 @@
                                 {
                                     <a asp-action="FinalizeBooking" asp-controller="Booking" asp-route-villaId="@villa.Id"
                                        asp-route-checkInDate="@Model.CheckInDate" asp-route-nights="@Model.Nights"
-                                    class="btn btn-success form-control btn-block">
+                                       class="btn btn-success form-control btn-block">
                                         Book
                                     </a>
                                 }
@@ -63,9 +61,8 @@
             </div>
         </div>
 
-
         <div class="modal fade" id="exampleModal-@villa.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl" style="border: 1px solid #aaa; border-radius:7px;">
+            <div class="modal-dialog modal-xl" style="border: 1px solid #aaa; border-radius:7px; background-color: black; color: lightgray;">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-3 text-success" id="exampleModalLabel">
@@ -76,13 +73,11 @@
                     <div class="modal-body m-0">
                         <partial name="_VillaDetail" model="villa"></partial>
                     </div>
-
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
         </div>
-
     }
 </div>
