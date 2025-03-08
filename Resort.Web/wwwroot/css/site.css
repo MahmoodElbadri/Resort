@@ -103,7 +103,6 @@ main {
         transform: scale(1);
     }
 }
-
 /* Responsive adjustments */
 @media (max-width: 576px) {
     .navbar-brand img {

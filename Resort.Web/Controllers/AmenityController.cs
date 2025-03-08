@@ -7,7 +7,6 @@ using Resort.Domain.Entities;
 
 namespace Resort.Web.Controllers;
 
-[Authorize(Roles = SD.Role_Customer)]
 public class AmenityController : Controller
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -16,12 +15,17 @@ public class AmenityController : Controller
     {
         this._unitOfWork = unitOfWork;
     }
+
+    [Authorize(Roles = SD.Role_Admin)]
+    [Authorize(Roles = SD.Role_Customer)]
+    [HttpGet]
     public IActionResult Index()
     {
         var amenities = _unitOfWork.Amenity.GetAll(includeProperties: "Villa");
         return View(amenities);
     }
 
+    [Authorize(Roles = SD.Role_Admin)]
     [HttpGet]
     public IActionResult Create()
     {
@@ -39,6 +43,7 @@ public class AmenityController : Controller
         return View();
     }
 
+    [Authorize(Roles = SD.Role_Admin)]
     [HttpPost]
     public IActionResult Create(Amenity amenity)
     {
@@ -60,6 +65,7 @@ public class AmenityController : Controller
         return View(amenity);
     }
 
+    [Authorize(Roles = SD.Role_Admin)]
     [HttpGet]
     public IActionResult Update(int id)
     {
@@ -68,6 +74,7 @@ public class AmenityController : Controller
         return View(amenity);
     }
 
+    [Authorize(Roles = SD.Role_Admin)]
     [HttpPost]
     public IActionResult Update(Amenity amenity)
     {
@@ -87,6 +94,7 @@ public class AmenityController : Controller
         return View(amenity);
     }
 
+    [Authorize(Roles = SD.Role_Admin)]
     [HttpGet]
     public IActionResult Delete(int id)
     {
@@ -94,6 +102,7 @@ public class AmenityController : Controller
         return View(amenity);
     }
 
+    [Authorize(Roles = SD.Role_Admin)]
     [HttpPost]
     public IActionResult Delete(Amenity amenity)
     {

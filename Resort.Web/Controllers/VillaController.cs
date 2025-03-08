@@ -8,7 +8,6 @@ using Resort.Application.Utility;
 
 namespace Resort.Web.Controllers;
 
-[Authorize(Roles = SD.Role_Customer)]
 public class VillaController : Controller
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -19,17 +18,23 @@ public class VillaController : Controller
         this._unitOfWork = unitOfWork;
         this._webHostEnvironment = webHostEnvironment;
     }
+
+    [Authorize(Roles = SD.Role_Admin)]
+    [Authorize(Roles = SD.Role_Customer)]
     public IActionResult Index()
     {
         var villas = _unitOfWork.Villa.GetAll();
         return View(villas);
     }
 
+    [Authorize(Roles = SD.Role_Admin)]
     [HttpGet]
     public IActionResult Create()
     {
         return View();
     }
+
+    [Authorize(Roles = SD.Role_Admin)]
     [HttpPost]
     public IActionResult Create(Villa villa)
     {
@@ -71,6 +76,7 @@ public class VillaController : Controller
         return View(villa);
     }
 
+    [Authorize(Roles = SD.Role_Admin)]
     [HttpGet]
     public IActionResult Update(int id)
     {
@@ -82,6 +88,7 @@ public class VillaController : Controller
         return View(villa);
     }
 
+    [Authorize(Roles = SD.Role_Admin)]
     [HttpPost]
     public IActionResult Update(Villa villa)
     {
@@ -124,6 +131,7 @@ public class VillaController : Controller
         return View(villa);
     }
 
+    [Authorize(Roles = SD.Role_Admin)]
     [HttpGet]
     public IActionResult Delete(int id)
     {
@@ -135,6 +143,7 @@ public class VillaController : Controller
         return View(villa);
     }
 
+    [Authorize(Roles = SD.Role_Admin)]
     [HttpPost]
     public IActionResult Delete(Villa villa)
     {
