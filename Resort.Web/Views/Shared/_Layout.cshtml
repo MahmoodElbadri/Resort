@@ -29,52 +29,6 @@
 </head> 
 <body>
     <header>
-       @*  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="~/images/resort.png" alt="Resort Logo" style="height: 40px;" />Resort.Web
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
-                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                       
-                        <!-- Example split danger button -->
-                        <div class="btn-group">
-                            @if (User.IsInRole(SD.Role_Admin))
-                            {
-                            <button type="button" class="btn btn-white">Content Mangement</button>
-                            <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span class="visually-hidden">Toggle Dropdown</span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" asp-controller="Villa" asp-action="Index">Villa</a></li>
-                                <li><a class="dropdown-item" asp-controller="VillaNumber" asp-action="Index">Villa Number</a></li>
-                                <li><a class="dropdown-item" asp-controller="Amenity" asp-action="Index">Amenity</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" asp-controller="Booking" asp-action="Index" asp-route-status="@SD.StatusApproved">Bookings</a></li>
-                            </ul>
-                            }
-                            else
-                            {
-                            <li><a class="dropdown-item" asp-controller="Booking" asp-action="Index" asp-route-status="@SD.StatusApproved">Manage Bookings</a></li>
-                            }
-                        </div>
-                 
-                       
-                    </ul>
-                    <partial name="_LoginPartial" />
-                </div>
-            </div>
-        </nav> *@
         <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
